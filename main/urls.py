@@ -1,8 +1,9 @@
 from django.urls import path
-from main.views import show_main
+from main.views import test_akun
 
 app_name = 'main'
 
+#testing testing blom paham lanjutnya gmn wkwk
 urlpatterns = [
-    path('', show_main, name='show_main'),
+    path('', test_akun, name='test_akun'), 
 ]
