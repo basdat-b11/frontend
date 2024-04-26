@@ -12,4 +12,4 @@ def test_akun(request):
         result = cursor.fetchall()
     
     print(result)
-    return HttpResponse("test_akun", content_type='application/json', status=200)
+    return HttpResponse(result, content_type='application/json', status=200)
