@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Lagu</title>
+    <style>
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>CREATE LAGU</h2>
+    <form action="#" method="post">
+        <label for="album">Album:</label><br>
+        <input type="text" id="album" name="album" value="Album 1" readonly><br><br>
+
+        <label for="judul">Judul:</label><br>
+        <input type="text" id="judul" name="judul"><br><br>
+
+        <label for="artist">Artist:</label><br>
+        <select id="artist" name="artist">
+            <option value="1">Artis 1</option>
+            <option value="2">Artis 2</option>
+            <option value="3">Artis 3</option>
+            <!-- Tambahkan opsi artis sesuai kebutuhan -->
+        </select><br><br>
+
+        <label for="songwriter">Songwriter:</label><br>
+        <select id="songwriter" name="songwriter">
+            <option value="1">Penulis Lagu 1</option>
+            <option value="2">Penulis Lagu 2</option>
+            <option value="3">Penulis Lagu 3</option>
+            <!-- Tambahkan opsi penulis lagu sesuai kebutuhan -->
+        </select><br><br>
+
+        <label for="genre">Genre:</label><br>
+        <select id="genre" name="genre" multiple>
+            <option value="genre1">Genre 1</option>
+            <option value="genre2">Genre 2</option>
+            <option value="genre3">Genre 3</option>
+            <!-- Tambahkan opsi genre sesuai kebutuhan -->
+        </select><br><br>
+
+        <label for="durasi">Durasi:</label><br>
+        <input type="text" id="durasi" name="durasi"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
