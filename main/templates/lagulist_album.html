@@ -3,53 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAFTAR LAGU PADA ALBUM</title>
+    <title>LIST LAGU</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        .custom-blue-bg {
+            background-color: #007bff !important;
+            color: #fff;
+            font-family: 'Abel', sans-serif;
+        }
+        .custom-yellow-bg {
+            background-color: #ecdaab !important;
+            color: #000000;
+            font-family: 'Abel', sans-serif;
+        }
+        .custom-btn {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            font-family: 'Abel', sans-serif;
+            cursor: pointer;
+        }
+        .custom-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            font-family: 'Abel', sans-serif;
+        }
         table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<table>
-    <tr>
-        <th colspan="5">DAFTAR LAGU PADA ALBUM1</th>
-    </tr>
-    <tr>
-        <th>Judul</th>
-        <th>Durasi</th>
-        <th>Total Play</th>
-        <th>Total Download</th>
-        <th>Action</th>
-    </tr>
-    <tr>
-        <td>Lagu 1</td>
-        <td>2 menit</td>
-        <td>3</td>
-        <td>0</td>
-        <td>
-            <button>Lihat Detail</button>
-            <button>Hapus</button>
-        </td>
-    </tr>
-    <tr>
-        <td>Lagu 2</td>
-        <td>3 menit</td>
-        <td>2</td>
-        <td>2</td>
-        <td>
-            <button>Lihat Detail</button>
-            <button>Hapus</button>
-        </td>
-    </tr>
-</table>
+<body>
+    <br>
+    <div class="container">
+    <table class="table table-bordered">
+        <tr>
+            <th colspan="5" class="custom-blue-bg">DAFTAR LAGU PADA ALBUM1</th>
+        </tr>
+        <tr>
+            <th class="custom-yellow-bg">Judul</th>
+            <th class="custom-yellow-bg">Durasi</th>
+            <th class="custom-yellow-bg">Total Play</th>
+            <th class="custom-yellow-bg">Total Download</th>
+            <th class="custom-yellow-bg">Action</th>
+        </tr>
+        <tr>
+            <td>Lagu 1</td>
+            <td>2 menit</td>
+            <td>3</td>
+            <td>0</td>
+            <td>
+                <button class="btn btn-primary custom-btn">Lihat Detail</button>
+                <button class="btn btn-primary custom-btn">Hapus</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Lagu 2</td>
+            <td>3 menit</td>
+            <td>2</td>
+            <td>2</td>
+            <td>
+                <button class="btn btn-primary custom-btn">Lihat Detail</button>
+                <button class="btn btn-primary custom-btn">Hapus</button>
+            </td>
+        </tr>
+        <tr>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+    </table>
+    </div>
 </body>
 </html>
