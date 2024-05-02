@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      /* Custom CSS */
+      .profile-info {
+          margin-bottom: 20px;
+      }
+
+      .profile-info label {
+          font-weight: bold;
+      }
+
+      .playlist-item {
+          cursor: pointer;
+      }
+
+      .playlist-item:hover {
+          text-decoration: underline;
+      }
+
+      body {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 5px 10px;
+      }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">marmut-b11</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="form-inline my-2 my-lg-0 mx-auto">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Chart</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Kelola Playlist</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Langganan Paket</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Logout</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+
+  <h1 style="margin: 20px 0px 50px 0px;">USER PLAYLIST</h1>
+  <div>Anda Belum Memiliki Playlist</div>
+  <div><button style="margin: 50px 0px 15px 0px">Tambah Playlist</button></div>
+</body>
+</html>
