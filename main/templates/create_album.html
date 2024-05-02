@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CREATE ALBUM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Abel', sans-serif;
@@ -15,7 +16,7 @@
             text-align: center;
             color: #007bff;
         }
-        form {
+        form { 
             width: 50%;
             margin: 0 auto;
             background-color: #fff;
@@ -49,7 +50,43 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">marmut-b11</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Playlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Album</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Songs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Langganan Paket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
     <h2>CREATE ALBUM</h2>
+    <br>
     <form action="#" method="post">
         <label for="judul">Judul :</label><br>
         <input type="text" id="judul" name="judul"><br><br>
