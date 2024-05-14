@@ -82,24 +82,26 @@
     <h1 style="margin-top: 15px;">Song Detail</h1>
     <div class="song-detail">
     <div style="margin-left:30px">
-        <p><b>Judul:</b> <span>Song1</span></p>
+        <p><b>Judul:</b> <span>{{ judul_lagu }}</span></p>
         <p><b>Genre(s):</b></p>
         <ul>
-            <li>Genre1</li>
-            <li>Genre2</li>
+            {% for genre in genres %}
+                <li>{{ genre }}</li>
+            {% endfor %}
         </ul>
-        <p><b>Artist:</b> Artist1</p>
+        <p><b>Artist:</b> {{ artist }}</p>
         <p><b>Songwriter(s):</b></p>
         <ul>
-            <li>Songwriter1</li>
-            <li>Songwriter2</li>
+            {% for songwriter in songwriters %}
+                <li>{{ songwriter }}</li>
+            {% endfor %}
         </ul>
-        <p><b>Durasi:</b> 3 menit</p>
-        <p><b>Tanggal Rilis:</b> 18/03/24</p>
-        <p><b>Tahun:</b> 2024</p>
-        <p><b>Total Play:</b> 0</p>
-        <p><b>Total Downloads:</b> 0</p>
-        <p><b>Album:</b> Album1</p>
+        <p><b>Durasi:</b> {{ durasi }}</p>
+        <p><b>Tanggal Rilis:</b> {{ tanggal_rilis }}</p>
+        <p><b>Tahun:</b> {{ tahun }}</p>
+        <p><b>Total Play:</b> {{ total_play }}</p>
+        <p><b>Total Downloads:</b> {{ total_download }}</p>
+        <p><b>Album:</b> {{ album }}</p>
     </div>
 
     <div class="progress-control">
