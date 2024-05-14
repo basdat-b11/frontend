@@ -33,12 +33,12 @@
 </head>
 <body>
   <h1>USER PLAYLIST DETAIL</h1>
-  <p>Judul: Playlist1</p>
-  <p>Pembuat: Pembuat1</p>
-  <p>Jumlah Lagu: 12</p>
-  <p>Total Durasi: 8 jam 20 menit</p>
-  <p>Tanggal Dibuat: 18/03/24</p>
-  <p>Deskripsi: Lorem Ipsum ...</p>
+  <p>Judul: {{ judul }}</p>
+  <p>Pembuat: {{ pembuat }}</p>
+  <p>Jumlah Lagu: {{ jumlah_lagu }}</p>
+  <p>Total Durasi: {{ total_durasi }}</p>
+  <p>Tanggal Dibuat: {{ tanggal_dibuat }}</p>
+  <p>Deskripsi: {{ deskripsi }}</p>
   <div class="action-buttons">
     <button>Shuffle Play</button><br>
     <button>Kembali</button>
@@ -52,24 +52,17 @@
       <th>Durasi</th>
       <th>Actions</th>
     </tr>
-    <tr>
-      <td>Song1</td>
-      <td>Artist1</td>
-      <td>2 menit</td>
-      <td class="action-buttons">
-        <button>Lihat</button><br>
-        <button>Play</button><br>
-      </td>
-    </tr>
-    <tr>
-      <td>Song2</td>
-      <td>Artist2</td>
-      <td>3 menit</td>
-      <td class="action-buttons">
-        <button>Lihat</button><br>
-        <button>Play</button><br>
-      </td>
-    </tr>
+    {% for song in daftar_lagu %}
+      <tr>
+        <td>{{ song.judul }}</td>
+        <td>{{ song.artist }}</td>
+        <td>{{ song.durasi }}</td>
+        <td class="action-buttons">
+          <button>Lihat</button><br>
+          <button>Play</button><br>
+        </td>
+      </tr>
+    {% endfor %}
   </table>
 </body>
 </html>
