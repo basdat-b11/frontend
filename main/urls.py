@@ -1,5 +1,8 @@
 from django.urls import path
-from main.views import test_akun, playlist, song_detail, kelola_playlist
+from main.views import test_akun
+from playlist.views import playlist
+from songdetail.views import song_detail
+from kelolaplaylist.views import kelola_playlist
 
 app_name = 'main'
 
