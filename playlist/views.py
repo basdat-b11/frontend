@@ -1,12 +1,22 @@
 from django.db import connection
 from django.shortcuts import render
 
-def playlist(request):
-    judul_playlist = 'Model despite husband'
+def playlist(request, id_playlist):
+    judul_playlist = ''
+    with connection.cursor() as cursor:
+        cursor.execute("Set search_path to marmut;")
+        cursor.execute("""
+                        SELECT judul
+                        FROM user_playlist
+                        WHERE id_user_playlist = %s;
+                        """, [id_playlist])
+        result = cursor.fetchall()
+        judul_playlist = result[0][0]
 
     result = ""
     judul, pembuat, jumlah_lagu, total_durasi, tanggal_dibuat, deskripsi = "", "", "", "", "", ""
     daftar_lagu = []
+    pilihan_lagu = []
     with connection.cursor() as cursor:
         cursor.execute("Set search_path to marmut;")
         cursor.execute("""
@@ -44,7 +54,22 @@ def playlist(request):
                 'durasi': row[2]
             })
 
-        print("daftar_lagu", daftar_lagu)
+        cursor.execute("""
+                        SELECT id, judul
+                        FROM song
+                        JOIN konten ON song.id_konten = konten.id
+                        WHERE song.id_konten NOT IN (
+                            SELECT id_song
+                            FROM playlist_song
+                            WHERE id_playlist = %s
+                        );
+                        """, [id_playlist])
+        result = cursor.fetchall()
+        for row in result:
+            pilihan_lagu.append({
+                'id': row[0],
+                'judul': row[1]
+            })
 
     # print(result)
     # print("Judul: ", judul)
@@ -58,11 +83,42 @@ def playlist(request):
     total_durasi = str(total_durasi_jam) + " jam " + str(total_durasi_menit) + " menit"
 
     return render(request, 'play_user_playlist.html', {
+        'id_playlist': id_playlist,
         'judul': judul,
         'pembuat': pembuat,
         'jumlah_lagu': jumlah_lagu,
         'total_durasi': total_durasi,
         'tanggal_dibuat': tanggal_dibuat,
         'deskripsi': deskripsi,
-        'daftar_lagu': daftar_lagu
+        'daftar_lagu': daftar_lagu,
+        'pilihan_lagu': pilihan_lagu
     })
+
+def tambahlagu(request, id_playlist):
+    id_lagu = request.POST['judul_playlist']
+    with connection.cursor() as cursor:
+        cursor.execute("Set search_path to marmut;")
+        cursor.execute("""
+                        INSERT INTO playlist_song (id_playlist, id_song)
+                        VALUES (%s, %s);
+                        """, [id_playlist, id_lagu])
+        
+        jumlah_lagu = 0
+        total_durasi = 0
+        cursor.execute("""
+                        SELECT COUNT(*), SUM(durasi)
+                        FROM playlist_song
+                        JOIN song ON playlist_song.id_song = song.id_konten
+                        JOIN konten ON song.id_konten = konten.id
+                        WHERE id_playlist = %s;
+                        """, [id_playlist])
+        result = cursor.fetchall()
+        jumlah_lagu, total_durasi = result[0]
+
+        cursor.execute("""
+                        UPDATE user_playlist
+                        SET jumlah_lagu = %s, total_durasi = %s
+                        WHERE id_user_playlist = %s;
+                        """, [jumlah_lagu, total_durasi, id_playlist])
+
+    return playlist(request, id_playlist)

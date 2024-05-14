@@ -66,7 +66,69 @@
   </nav>
 
   <h1 style="margin: 20px 0px 50px 0px;">USER PLAYLIST</h1>
-  <div>Anda Belum Memiliki Playlist</div>
-  <div><button style="margin: 50px 0px 15px 0px">Tambah Playlist</button></div>
+  <div style="margin: 0 auto;"></div>
+    {% if playlists %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Judul</th>
+                  <th>Jumlah Lagu</th>
+                  <th>Total Durasi</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for playlist in playlists %}
+                  <tr>
+                    <td>{{ playlist.judul }}</td>
+                    <td>{{ playlist.jumlah_lagu }}</td>
+                    <td>{{ playlist.total_durasi }}</td>
+                    <td>
+                      <a href="/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">Detail</a>
+                      <a href="/kelolaplaylist/edit/{{ playlist.id }}" class="btn btn-warning btn-sm">Edit</a>
+                      <a href="/kelolaplaylist/delete/{{ playlist.id }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div>Anda Belum Memiliki Playlist</div>
+    {% endif %}
+  <div id="formContainer" style="display: none;">
+    <form action="/kelolaplaylist/" method="post" style="margin: 50px 0px 15px 0px">
+        {% csrf_token %}
+        <label for="judul_playlist">Judul Playlist:</label><br>
+        <input required type="text" id="judul_playlist" name="judul_playlist"><br>
+        <label for="deskripsi_playlist">Deskripsi Playlist:</label><br>
+        <input required type="text" id="deskripsi_playlist" name="deskripsi_playlist"><br>
+        <input type="submit" value="Tambah Playlist">
+    </form>
+  </div>
+
+  <button id="showFormButton">Tambah Playlist</button>
+  </div>
+
+  <script>
+    document.getElementById('showFormButton').addEventListener('click', function() {
+        var formContainer = document.getElementById('formContainer');
+        var button = document.getElementById('showFormButton');
+        if (formContainer.style.display === 'none') {
+            formContainer.style.display = 'block';
+            button.textContent = 'Cancel';  // Change the button text to 'Cancel'
+            document.getElementById('judul_playlist').value = '';  // Clear the value of the 'judul_playlist' input field
+            document.getElementById('deskripsi_playlist').value = '';  // Clear the value of the 'deskripsi_playlist' input field
+        } else {
+            formContainer.style.display = 'none';
+            button.textContent = 'Tambah Playlist';  // Change the button text back to 'Tambah Playlist'
+        }
+    });
+  </script>
 </body>
 </html>
