@@ -1,3 +1,5 @@
+from django.urls import include,path
+from main.views import test_akun
 from django.urls import path
 from main.views import *;
 
@@ -5,7 +7,10 @@ app_name = 'main'
 
 #testing testing blom paham lanjutnya gmn wkwk
 urlpatterns = [
-    path('', my_view, name='my_view'),
+    path('', test_akun, name='test_akun'), 
+    path('kelolaplaylist/', include('kelolaplaylist.urls')),
+    path('songdetail/', include('songdetail.urls')),
+    path('playlist/', include('playlist.urls')),
     path('create-album', create_album, name='create_album'), 
     path('list-album', list_album, name='list_album'),
     path('list-album-label', list_album_label, name='list_album_label'),
