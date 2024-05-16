@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIST ALBUM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-blue-bg {
+            background-color: #007bff !important;
+            color: #fff;
+        }
+        .custom-yellow-bg {
+            background-color: #ecdaab !important;
+            color: #000000;
+        }
+        .custom-btn {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .custom-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        table {
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">marmut-b11</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Playlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Album</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Songs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Langganan Paket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="text-center mt-4 mb-4">LIST ALBUM</h2>
+        <table class="table table-bordered">
+            <thead class="custom-blue-bg">
+                <tr>
+                    <th colspan="5">LIST ALBUM</th>
+                </tr>
+                <tr>
+                    <th class="custom-yellow-bg">Judul</th>
+                    <th class="custom-yellow-bg">Label</th>
+                    <th class="custom-yellow-bg">Jumlah Lagu</th>
+                    <th class="custom-yellow-bg">Total Durasi</th>
+                    <th class="custom-yellow-bg">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Album 1</td>
+                    <td>Label A</td>
+                    <td>0</td>
+                    <td>0 menit</td>
+                    <td>
+                        <button class="btn custom-btn">Daftar Lagu</button>
+                        <button class="btn custom-btn">Tambah Lagu</button>
+                        <button class="btn custom-btn">Hapus</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Album 2</td>
+                    <td>Label B</td>
+                    <td>2</td>
+                    <td>4 menit</td>
+                    <td>
+                        <button class="btn custom-btn">Daftar Lagu</button>
+                        <button class="btn custom-btn">Tambah Lagu</button>
+                        <button class="btn custom-btn">Hapus</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
