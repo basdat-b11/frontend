@@ -54,7 +54,8 @@
 
     <div class="container">
         <h1 class="mb-4">Create Podcast</h1>
-        <form>
+        <form action="list-podcast" method="POST">
+            {% csrf_token %}
             <div class="mb-3">
                 <label for="podcastTitle" class="form-label">Podcast Title</label>
                 <input type="text" class="form-control" id="podcastTitle" placeholder="Enter podcast title">
@@ -68,10 +69,6 @@
                     <option value="3">Education</option>
                     <!-- Untuk tambahkan genre-->
                 </select>
-            </div>
-            <div class="mb-3">
-                <label for="podcastDuration" class="form-label">Duration</label>
-                <input type="text" class="form-control" id="podcastDuration" placeholder="Enter duration">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -54,7 +54,8 @@
 
     <div class="container">
         <h1 class="mb-4">Create Episode</h1>
-        <form>
+        <form action="list-episode" method="POST">
+            {% csrf_token %}
             <div class="mb-3">
                 <label for="episodeTitle" class="form-label">Episode Title</label>
                 <input type="text" class="form-control" id="episodeTitle" placeholder="Enter episode title">
