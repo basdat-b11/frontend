@@ -14,68 +14,76 @@
 </head>
 <body class="d-flex align-items-center justify-content-center">
   <div class="container mt-4">
-    <h1>Maaf, pencarian untuk “love” tidak ditemukan</h1>
-    <h4 class="text-center">Hasil Pencarian "love"</h4>
-    <table class="table table-bordered border-black">
-      <thead>
-        <tr>
-          <th>Tipe</th>
-          <th>Judul</th>
-          <th>Oleh</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>SONG</td>
-          <td>Love is in the air</td>
-          <td>Artist1</td>
-          <td class="d-flex flex-column">
-            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
-              Lihat
-            </button>
-          </td>
-        </tr>
-        <tr>
-            <td>SONG</td>
-            <td>What is love</td>
-            <td>Artist2</td>
-            <td class="d-flex flex-column">
-              <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
-                Lihat
-              </button>
-            </td>
-        </tr>
-        <tr>
-            <td>PODCAST</td>
-            <td>Love is blind pot</td>
-            <td>Podcaster1</td>
-            <td class="d-flex flex-column">
-              <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
-                Lihat
-              </button>
-            </td>
-        </tr>
-        <tr>
-            <td>PLAYLIST</td>
-            <td>90s Love Songs</td>
-            <td>User1</td>
-            <td class="d-flex flex-column">
-              <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
-                Lihat
-              </button>
-            </td>
-        </tr>
-        <tr>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
+    <div class="container mt-4">
+      <form method="GET" action="{% url 'main:pencarian' %}">
+      <div class="input-group mb-3">
+          <input type="text" name="query" class="form-control" placeholder="Cari lagu, playlist, dan info lainnya..." aria-label="Search" aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Cari</button>
+        </div>
+      </form>
+    </div>
+
+    {% if hasil_pencarian %}
+      {% if daftar_lagu or daftar_playlist or daftar_podcast %}
+      <h4 class="text-center">Hasil Pencarian "{{ hasil_pencarian }}"</h4>
+      <table class="table table-bordered border-black">
+        <thead>
+          <tr>
+            <th>Tipe</th>
+            <th>Judul</th>
+            <th>Oleh</th>
+            <th>Actions</th>
           </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for lagu in daftar_lagu %}
+          <tr>
+            <td>SONG</td>
+            <td>{{ lagu.judul }}</td>
+            <td>{{ lagu.artist }}</td>
+            <td class="d-flex flex-column">
+              <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
+                Lihat
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+          {% for podcast in daftar_podcast %}
+          <tr>
+              <td>PODCAST</td>
+              <td>{{ podcast.judul }}</td>
+              <td>{{ podcast.podcaster }}</td>
+              <td class="d-flex flex-column">
+                <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
+                  Lihat
+                </button>
+              </td>
+          </tr>
+          {% endfor %}
+          {% for playlist in daftar_playlist %}
+          <tr>
+              <td>PLAYLIST</td>
+              <td>{{ playlist.judul }}</td>
+              <td>{{ playlist.user }}</td>
+              <td class="d-flex flex-column">
+                <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
+                  Lihat
+                </button>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h3 class="text-center">Maaf, pencarian untuk "{{ hasil_pencarian }}" tidak ditemukan</h3>
+      {% endif %}
+    
+
+    {% else %}
+    <p class="text-center">Silahkan melakukan pencarian</p>
+    {% endif %}
     <div class="text-center">
-      <button type="button" class="btn btn-primary w-100">Kembali</button>
+      <a href={% url 'authentication:dashboard' %}><button type="button" class="btn btn-primary w-100">Kembali</button></a>
     </div>
   </div>
 

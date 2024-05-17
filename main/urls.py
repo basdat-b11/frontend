@@ -1,7 +1,7 @@
 from django.urls import include,path
 from main.views import test_akun
 from django.urls import path
-from main.views import subscription_page, bayar_paket, riwayat_langganan, unduhan_lagu
+from main.views import subscription_page, bayar_paket, riwayat_langganan, unduhan_lagu, pencarian
 from kelolaalbum.views import *
 
 app_name = 'main'
@@ -25,4 +25,5 @@ urlpatterns = [
     path('pembayaran-paket/', bayar_paket, name='bayar_paket'),
     path('riwayat-langganan/', riwayat_langganan, name='riwayat_langganan'),
     path('unduhan-lagu/', unduhan_lagu, name='unduhan_lagu'),
+    path('cari', pencarian, name='pencarian'),
 ]

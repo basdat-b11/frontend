@@ -209,4 +209,36 @@ def unduhan_lagu(request):
             return render(request, 'downloaded-song.html', context)
         else:
             return redirect('authentication:dashboard')
+        
+def pencarian(request):
+    with connection.cursor() as cursor:
+        cursor = connection.cursor()
+        cursor.execute("SET SEARCH_PATH TO MARMUT;")
+        query = request.GET.get('query')
+        cursor.execute(f"SELECT judul, AKUN.nama, k.id FROM KONTEN k JOIN SONG ON k.id = SONG.id_konten JOIN ARTIST ON SONG.id_artist = ARTIST.id JOIN AKUN ON AKUN.email = ARTIST.email_akun WHERE k.judul ILIKE '%{query}%';")
+        daftar_lagu = cursor.fetchall()
+        cursor.execute(f"SELECT judul, AKUN.nama, k.id FROM KONTEN k JOIN PODCAST ON k.id = PODCAST.id_konten JOIN PODCASTER ON PODCAST.email_podcaster = PODCASTER.email JOIN AKUN ON AKUN.email = PODCASTER.email WHERE k.judul ILIKE '%{query}%';")
+        daftar_podcast = cursor.fetchall()
+        cursor.execute(f"SELECT judul, AKUN.nama, id_user_playlist FROM USER_PLAYLIST p JOIN AKUN ON AKUN.email = p.email_pembuat WHERE p.judul ILIKE '%{query}%';")
+        daftar_playlist = cursor.fetchall()
+
+        context = {
+            'daftar_lagu': [{
+                    'judul': row[0],
+                    'artist': row[1],
+                    'id': row[2]
+                    } for row in daftar_lagu],
+            'daftar_podcast': [{
+                    'judul': row[0],
+                    'podcaster': row[1],
+                    'id': row[2]
+                    } for row in daftar_podcast],
+            'daftar_playlist': [{
+                    'judul': row[0],
+                    'user': row[1],
+                    'id': row[2]
+                    } for row in daftar_playlist],
+            'hasil_pencarian': query,
+        }
+        return render(request, 'search-result-page.html', context)
 
