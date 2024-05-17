@@ -1,0 +1,165 @@
+{%block content%}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+    .header {
+        color: #000;
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 20px;
+    }
+    .profile-info {
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+    .profile-info p {
+        margin: 5px 0;
+    }
+    .content {
+        padding: 0 20px;
+    }
+    .content h2 {
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+    .table {
+        display: flex;
+        flex-direction: column;
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .row {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+    }
+    .cell {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        border-right: 1px solid #ddd;
+        color: #000;
+    }
+    .cell:last-child {
+        border-right: none;
+    }
+    .header .cell {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Dashboard</h1>
+</div>
+
+<div class="profile-info">
+    <p><strong>Nama:</strong> {{ user.2 }}</p>
+    <p><strong>Email:</strong> {{ user.0 }}</p>
+    {% if role == "label" %}
+        <p><strong>Kontak:</strong> {{ user.3 }}</p>
+    {% else %}
+        <p><strong>Kota Asal:</strong> {{ user.7 }}</p>
+        {% if user.3 == 0 %}
+            <p><strong>Gender:</strong> Perempuan</p>
+        {% else %}
+            <p><strong>Gender:</strong> Laki-laki</p>
+        {% endif %}
+        <p><strong>Tempat Lahir:</strong> {{ user.4 }}</p>
+        <p><strong>Tanggal Lahir:</strong> {{ user.5 }}</p>
+        <p><strong>Role:</strong> {{ roles|join:", " }}</p>
+    {% endif %}
+</div>
+
+<div class="content">
+    
+        <h2>Daftar Playlist</h2>
+        {% if playlists|length > 0 %}
+            <ul>
+                {% for playlist in playlists %}
+                    <li>{{ playlist }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Belum Memiliki Playlist</p>
+        {% endif %}
+
+        {% if "Artist" in roles or "Songwriter" in roles %}
+            <h2>Daftar Lagu</h2>
+            {% if songs %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Judul</th>
+                            <th>Tanggal Rilis</th>
+                            <th>Tahun</th>
+                            <th>Durasi (menit)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song_list in songs %}
+                            {% for song in song_list %}
+                                <tr>
+                                    <td>{{ song.id }}</td> <!-- UUID -->
+                                    <td>{{ song.title }}</td> <!-- Judul -->
+                                    <td>{{ song.release_date|date:"Y-m-d" }}</td> <!-- Tanggal Rilis -->
+                                    <td>{{ song.year }}</td> <!-- Tahun -->
+                                    <td>{{ song.duration }}</td> <!-- Durasi -->
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Belum Memiliki Lagu</p>
+            {% endif %}
+        {% endif %}
+
+        {% if "Podcaster" in roles %}
+            <h2>Daftar Podcast</h2>
+            {% if podcasts|length > 0 %}
+                <ul>
+                    {% for podcast in podcasts %}
+                        <li>{{ podcast }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Belum Memiliki Podcast</p>
+            {% endif %}
+        {% endif %}
+
+        {% if "Label" in roles %}
+        <h2>Daftar Album</h2>
+        {% if albums|length > 0 %}
+            <ul>
+                {% for podcast in albums %}
+                    <li>{{ podcast }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Belum Memiliki Podcast</p>
+        {% endif %}
+
+    {% endif %}
+</div>
+
+</body>
+</html>
+
+{%endblock%}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      /* Custom CSS */
+      .profile-info {
+          margin-bottom: 20px;
+      }
+
+      .profile-info label {
+          font-weight: bold;
+      }
+
+      .playlist-item {
+          cursor: pointer;
+      }
+
+      .playlist-item:hover {
+          text-decoration: underline;
+      }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">marmut-b11</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="form-inline my-2 my-lg-0 mx-auto">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Chart</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Kelola Playlist</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Langganan Paket</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Logout</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+    <title>Song Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .controls button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 5px;
+        }
+        .progress-control {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+    <h1 style="margin-top: 15px;">Song Detail</h1>
+    <div class="song-detail">
+    <div style="margin-left:30px">
+        <p><b>Judul:</b> <span>{{ judul_lagu }}</span></p>
+        <p><b>Genre(s):</b></p>
+        <ul>
+            {% for genre in genres %}
+                <li>{{ genre }}</li>
+            {% endfor %}
+        </ul>
+        <p><b>Artist:</b> {{ artist }}</p>
+        <p><b>Songwriter(s):</b></p>
+        <ul>
+            {% for songwriter in songwriters %}
+                <li>{{ songwriter }}</li>
+            {% endfor %}
+        </ul>
+        <p><b>Durasi:</b> {{ durasi }}</p>
+        <p><b>Tanggal Rilis:</b> {{ tanggal_rilis }}</p>
+        <p><b>Tahun:</b> {{ tahun }}</p>
+        <p><b>Total Play:</b> {{ total_play }}</p>
+        <p><b>Total Downloads:</b> {{ total_download }}</p>
+        <p><b>Album:</b> {{ album }}</p>
+    </div>
+
+    <div class="progress-control">
+        <input type="range" id="progress-slider" min="0" max="100" value="0" step="1">
+        <span id="progress-value">0</span>%
+    </div>
+
+    <div class="controls">
+        <button style="margin-bottom: 5px;">Play</button><br>
+        <button style="margin-bottom: 5px;">Add to Playlist</button><br>
+        <button style="margin-bottom: 5px;">Download</button><br>
+        <button>Kembali</button>
+    </div>
+    
+    <script>
+        const progressSlider = document.getElementById('progress-slider');
+        const progressValue = document.getElementById('progress-value');
+
+        progressSlider.addEventListener('input', updateProgressValue);
+
+        function updateProgressValue() {
+            progressValue.textContent = progressSlider.value;
+        }
+    </script>
+</body>
+</html>

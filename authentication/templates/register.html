@@ -1,0 +1,47 @@
+
+{% load static %}
+
+{% block content %}
+<head>
+    <title>Login dan Register</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <a href="{% url 'authentication:register-pengguna' %}" class="btn">Pengguna</a>
+        <h2></h2>
+        <a href="{% url 'authentication:register-label' %}" class="btn">Label</a>
+    </div>
+</body>
+{% endblock %}
