@@ -167,3 +167,22 @@ def bayar_paket(request):
                 return render(request, "pembayaran-paket.html", context)
         else:
             return HttpResponse("No package selected.")
+        
+@require_http_methods(['GET'])
+def riwayat_langganan(request):
+    email = request.session.get('email')
+    with connection.cursor() as cursor:
+        cursor = connection.cursor()
+        cursor.execute("SET SEARCH_PATH TO MARMUT;")
+        cursor.execute(f"SELECT jenis_paket, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal FROM TRANSACTION WHERE email = '{email}'")
+        riwayat_paket = cursor.fetchall()
+        context = {
+            'data_langganan': [{
+                'jenis_paket': paket[0],
+                'timestamp_dimulai': paket[1],
+                'timestamp_berakhir': paket[2],
+                'metode_bayar': paket[3],
+                'nominal': paket[4],
+                } for paket in riwayat_paket],
+        } 
+        return render(request, 'riwayat-transaksi.html', context)
