@@ -51,15 +51,15 @@
         <tr>
           <th>Judul Lagu</th>
           <th>Oleh</th>
-          <th>Tanggal Download</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
+        {% if daftar_lagu %}
+        {% for lagu in daftar_lagu %}
         <tr>
-          <td>Song1</td>
-          <td>Artist1</td>
-          <td>20/02/2024</td>
+          <td>{{ lagu.song_title }}</td>
+          <td>{{ lagu.artist_name }}</td>
           <td class="d-flex flex-column">
             <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
               Lihat
@@ -69,19 +69,11 @@
             </button>
           </td>
         </tr>
-        <tr>
-          <td>Song2</td>
-          <td>Artist2</td>
-          <td>21/03/2024</td>
-          <td class="d-flex flex-column">
-            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
-              Lihat
-            </button>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal">
-              Hapus
-            </button>
-          </td>
-        </tr>
+        {% endfor %}
+
+        {% else %}
+        <p>Anda belum mendownload lagu apapun</p>
+        {% endif %}
       </tbody>
     </table>
     <div class="text-center">

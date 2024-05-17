@@ -186,3 +186,27 @@ def riwayat_langganan(request):
                 } for paket in riwayat_paket],
         } 
         return render(request, 'riwayat-transaksi.html', context)
+    
+def unduhan_lagu(request):
+    email = request.session.get('email')
+    with connection.cursor() as cursor:
+        cursor = connection.cursor()
+        cursor.execute("SET SEARCH_PATH TO MARMUT;")
+        cursor.execute(f"SELECT email FROM PREMIUM WHERE email = '{email}';")
+        email_didapat = cursor.fetchone()
+        if email == email_didapat[0]:
+            cursor.execute(f"SELECT KONTEN.judul AS song_title, AKUN.nama AS artist_name, d.id_song as id FROM DOWNLOADED_SONG d JOIN SONG ON d.id_song = SONG.id_konten JOIN KONTEN ON SONG.id_konten = KONTEN.id JOIN ARTIST ON SONG.id_artist = ARTIST.id JOIN AKUN on ARTIST.email_akun = AKUN.email WHERE d.email_downloader = '{email}';")
+            lagu_didownload = cursor.fetchall()
+            context = {
+                'daftar_lagu': [{
+                    'song_title': row[0],
+                    'artist_name': row[1],
+                    'id': row[2]
+                    } for row in lagu_didownload],
+            }
+            cursor.close()
+            connection.close()
+            return render(request, 'downloaded-song.html', context)
+        else:
+            return redirect('authentication:dashboard')
+
