@@ -110,10 +110,37 @@
     </div>
 
     <div class="controls">
-        <button style="margin-bottom: 5px;">Play</button><br>
-        <button style="margin-bottom: 5px;">Add to Playlist</button><br>
-        <button style="margin-bottom: 5px;">Download</button><br>
-        <button>Kembali</button>
+        <button style="margin-bottom: 5px;" id="playsong">Play</button><br>
+        <div id="playlistForm" style="display: none;">
+            <br>
+            <br>
+            <form>
+                {% csrf_token %}
+                <h4>ADD SONG TO USER PLAYLIST</h4>
+                <p>Judul: <span class="bold">{{ judul_lagu }}</span></p>
+                <p>Artist: <span class="bold">{{ artist }}</span></p>
+                <div>
+                    <label for="judul_playlist">Playlist:</label>
+                    <select id="judul_playlist" name="judul_playlist" required>
+                        {% for playlist in daftar_playlist %}
+                            <option value="{{ playlist.id_playlist }}">{{ playlist.judul }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button id="addsong" type="submit">Tambah</button>
+            </form>
+            <br>
+            <br>
+        </div>
+        <button style="margin-bottom: 5px;" id="showFormButton">Add to Playlist</button><br>
+
+
+        {% if is_premium %}
+            <button id="download" style="margin-bottom: 5px;">Download</button><br>
+        {% endif %}
+
+        <a href="/kelolaplaylist/"><button>Kembali</button></a>
+
     </div>
     
     <script>
@@ -125,6 +152,106 @@
         function updateProgressValue() {
             progressValue.textContent = progressSlider.value;
         }
+
+        document.getElementById('playsong').addEventListener('click', function() {
+            var sliderValue = document.getElementById('progress-slider').value;
+
+            var song_id = '{{ song_id }}';
+            var email_pembuat = '{{ email_pembuat }}';
+
+            fetch('/songdetail/play/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email_pembuat: email_pembuat,
+                    progress: sliderValue,
+                    song_id: song_id,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                alert('Berhasil memutar lagu {{ judul_lagu }}');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+        });
+
+        document.getElementById('addsong').addEventListener('click', function() {
+            var playlist = document.getElementById('judul_playlist').value;
+            var song_id = '{{ song_id }}';
+            var nama_playlist = document.getElementById('judul_playlist').options[document.getElementById('judul_playlist').selectedIndex].text;
+
+            var api_target = '/playlist/tambahlagu/' + playlist + '/';
+
+            var formData = new FormData(document.querySelector('form'));
+            formData.append('is_api', true);
+
+            fetch(api_target, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            var url = '/songdetail/redirect-choice/?song_id=' + song_id + '&playlist=' + playlist;
+            
+            location.assign(url)
+            alert('Berhasil menambahkan Lagu dengan judul {{ judul_lagu }} ke dalam Playlist ' + nama_playlist);
+        });
+
+        document.getElementById('download').addEventListener('click', function() {
+            var playlist = document.getElementById('judul_playlist').value;
+            var song_id = '{{ song_id }}';
+
+            var api_target = '/playlist/tambahlagu/' + playlist + '/';
+
+            var formData = new FormData(document.querySelector('form'));
+            formData.append('is_api', true);
+
+            fetch(api_target, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+            alert('Berhasil mengunduh Lagu dengan judul {{ judul_lagu }}');
+        });
+
+        document.getElementById('showFormButton').addEventListener('click', function() {
+            var playlistForm = document.getElementById('playlistForm');
+            var button = document.getElementById('showFormButton');
+            if (playlistForm.style.display === 'none') {
+                playlistForm.style.display = 'block';
+                button.textContent = 'Cancel';  // Change the button text to 'Cancel'
+                document.getElementById('judul_playlist').value = '';  // Clear the value of the 'judul_playlist' input field
+                document.getElementById('deskripsi_playlist').value = '';  // Clear the value of the 'deskripsi_playlist' input field
+            } else {
+                playlistForm.style.display = 'none';
+                button.textContent = 'Tambah Playlist';  // Change the button text back to 'Tambah Playlist'
+            }
+        });
     </script>
 </body>
 </html>

@@ -40,8 +40,8 @@
   <p>Tanggal Dibuat: {{ tanggal_dibuat }}</p>
   <p>Deskripsi: {{ deskripsi }}</p>
   <div class="action-buttons">
-    <button>Shuffle Play</button><br>
-    <button>Kembali</button>
+    <button id="shuffle" onclick="alert('Shuffle Play!')">Shuffle Play</button><br>
+    <a href="/kelolaplaylist/"><button>Kembali</button></a>
   </div>
 
   <h1>DAFTAR LAGU</h1>
@@ -58,11 +58,49 @@
         <td>{{ song.artist }}</td>
         <td>{{ song.durasi }}</td>
         <td class="action-buttons">
-          <button>Lihat</button><br>
-          <button>Play</button><br>
+          <a href="/songdetail/view/{{ song.id }}"><button>Lihat</button></a><br>
+          <button id="shuffle" onclick="alert('Playing {{song.judul}}')">Play</button><br>
+          <a href="/songdetail/delete/{{ song.id }}"><button>Hapus</button></a>
         </td>
       </tr>
     {% endfor %}
   </table>
+  <div id="formContainer" style="display: none; margin: 0 auto; text-align: center;">
+    <form action="/playlist/tambahlagu/{{ id_playlist }}/" method="post" style="margin: 50px 0px 15px 0px">
+      {% csrf_token %}
+      <label for="id_lagu">Lagu:</label>
+      <select name="id_lagu" id="id_lagu">
+        <option value="">Judul Lagu - Nama Artis</option>
+        {% for lagu in pilihan_lagu %}
+          <option value="{{ lagu.id }}">{{ lagu.judul }} - {{ lagu.artist }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="SUBMIT">
+    </form>
+  </div>
+
+  <center>
+    <button id="showFormButton" style="margin: 0 auto;">Tambah Lagu</button>
+  </center>
 </body>
+
+<script>
+  document.getElementById('showFormButton').addEventListener('click', function() {
+      var formContainer = document.getElementById('formContainer');
+      var button = document.getElementById('showFormButton');
+      if (formContainer.style.display === 'none') {
+          formContainer.style.display = 'block';
+          button.textContent = 'Cancel';  // Change the button text to 'Cancel'
+          document.getElementById('judul_playlist').value = '';  // Clear the value of the 'judul_playlist' input field
+          document.getElementById('deskripsi_playlist').value = '';  // Clear the value of the 'deskripsi_playlist' input field
+      } else {
+          formContainer.style.display = 'none';
+          button.textContent = 'Tambah Playlist';  // Change the button text back to 'Tambah Playlist'
+      }
+  });
+
+  document.getElementById('shuffle').addEventListener('click', function() {
+    
+  });
+</script>
 </html>
