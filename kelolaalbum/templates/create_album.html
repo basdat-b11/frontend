@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Album</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-blue-bg {
+            background-color: #007bff !important;
+            color: #fff;
+        }
+        .custom-yellow-bg {
+            background-color: #ecdaab !important;
+            color: #000000;
+        }
+        .custom-btn {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .custom-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        table {
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4">Create New Album</h1>
+        </div>
+        <div class="card mb-5">
+            <div class="card-body">
+                {% csrf_token %}
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="judul_album">Album Name</label>
+                        <input type="text" class="form-control" id="judul_album" name="judul_album" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Label</label>
+                        <select class="form-control" id="label" name="label" required>
+                            {% for label in labels %}
+                            <option value="{{ label.0 }}">{{ label.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn custom-btn">Create Album</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

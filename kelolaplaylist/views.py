@@ -48,6 +48,7 @@ def kelolaplaylist(request):
                         WHERE email_pembuat = %s;
                         """, [email_pembuat])
         result = cursor.fetchall()
+        print (result)
         playlists = []
         for row in result:
             durasi = row[2]
