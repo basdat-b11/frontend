@@ -1,3 +1,4 @@
+import uuid
 from django.shortcuts import redirect, render
 from django.db import connection
 from django.http import HttpResponse
@@ -6,6 +7,8 @@ import json
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+import psycopg2
 
 def first_view(request):
     # Lakukan operasi atau logika yang diperlukan
@@ -80,6 +83,9 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
+            request.session['nama'] = name
+            request.session['email'] = email
+            request.session['roles'] = role
             return redirect('main:show_main')
         else:
             messages.info(request, 'Sorry, incorrect username or password. Please try again.')
@@ -89,3 +95,75 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('main:login')
+
+def subscription_page(request):
+    email = request.session.get('email')
+    context = {
+        'email': email
+    }
+    return render(request, 'langganan-paket.html', context)
+
+@require_http_methods(['GET', 'POST'])
+def bayar_paket(request):
+    if request.method == 'POST':
+
+        email = request.session.get('email')
+        transaction_id = uuid.uuid4()
+        jenis_paket = request.POST['jenis_paket']
+        harga = request.POST['harga']
+        metode_pembayaran = request.POST['payment']
+        interval = 0
+        harga = 0
+        if jenis_paket == '1 bulan':
+            interval = '30 days'; harga = 65000
+        elif jenis_paket == '3 bulan':
+            interval = '3 months'; harga = 180000
+        elif jenis_paket == '6 bulan':
+            interval = '6 months'; harga = 330000
+        else:
+            interval = '1 years'; harga = 600000
+        
+        try:
+            with connection.cursor() as cursor:
+                cursor = connection.cursor()
+                cursor.execute("SET SEARCH_PATH TO MARMUT;")
+                cursor.execute(f"INSERT INTO TRANSACTION VALUES ('{transaction_id}', '{jenis_paket}', '{email}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '{interval}', '{metode_pembayaran}', {harga})")
+                connection.commit()
+                cursor.close()
+                connection.close()
+            
+            return redirect('authentication:dashboard')
+        
+        except psycopg2.Error as e:
+            if e.pgcode == 'P0001':  # Exception code for our custom exception
+                print("Hello")
+                messages.error(request, str(e))
+                return redirect('authentication:dashboard')
+            else:
+                print(e)
+                return HttpResponse("Error occurred while connecting to the database")
+    
+    else:
+        package = request.GET.get('package')
+        if package:
+            
+            with connection.cursor() as cursor:
+                cursor = connection.cursor()
+                cursor.execute("SET SEARCH_PATH TO MARMUT;")
+                cursor.execute(f"SELECT jenis, harga FROM PAKET WHERE jenis = '{package}'")
+                paket = cursor.fetchone()
+                cursor.close()
+                connection.close()
+                
+                data_paket = {
+                    'jenis': paket[0],
+                    'harga': paket[1],
+                }
+
+                context = {
+                    'data_paket': data_paket
+                }
+
+                return render(request, "pembayaran-paket.html", context)
+        else:
+            return HttpResponse("No package selected.")
