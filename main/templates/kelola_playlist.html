@@ -87,9 +87,9 @@
                     <td>{{ playlist.jumlah_lagu }}</td>
                     <td>{{ playlist.total_durasi }}</td>
                     <td>
-                      <a href="/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">Detail</a>
-                      <a href="/kelolaplaylist/edit/{{ playlist.id }}" class="btn btn-warning btn-sm">Edit</a>
-                      <a href="/kelolaplaylist/delete/{{ playlist.id }}" class="btn btn-danger btn-sm">Delete</a>
+                      <a href="/main/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">Detail</a>
+                      <a href="/main/kelolaplaylist/edit/{{ playlist.id }}" class="btn btn-warning btn-sm">Edit</a>
+                      <a href="/main/kelolaplaylist/delete/{{ playlist.id }}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                   </tr>
                 {% endfor %}

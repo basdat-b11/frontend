@@ -7,7 +7,8 @@ app_name = 'main'
 
 #testing testing blom paham lanjutnya gmn wkwk
 urlpatterns = [
-    path('', test_akun, name='test_akun'), 
+    path('', test_akun, name='test_akun'),
+    path('kelolaalbum/', include('kelolaalbum.urls')),
     path('kelolaplaylist/', include('kelolaplaylist.urls')),
     path('songdetail/', include('songdetail.urls')),
     path('playlist/', include('playlist.urls')),

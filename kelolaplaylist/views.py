@@ -1,3 +1,6 @@
+from django.shortcuts import render
+
+# Create your views here.
 import uuid
 from django.db import connection
 from django.shortcuts import render, redirect
@@ -47,11 +50,18 @@ def kelolaplaylist(request):
         result = cursor.fetchall()
         playlists = []
         for row in result:
+            durasi = row[2]
+            durasi_jam = durasi // 60
+            durasi_menit = durasi % 60
+            if durasi_jam == 0:
+                durasi = str(durasi_menit) + " menit"
+            else:
+                durasi = str(durasi_jam) + " jam " + str(durasi_menit) + " menit"
             playlists.append({
                 'id': row[3],
                 'judul': row[0],
                 'jumlah_lagu': row[1],
-                'total_durasi': row[2]
+                'total_durasi': durasi
             })
 
     return render(request, 'kelola_playlist.html', {

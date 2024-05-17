@@ -1,0 +1,44 @@
+
+
+{% load static %}
+
+{% block content %}
+<head>
+    <title>Marmut</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{% static 'img/logo_marmut_black_vertical.png' %}" height="150" width="200">
+        <h1>C5</h1>
+        <a href="{% url 'authentication:login' %}" class="btn">Login</a>
+        <h1></h1>
+        <a href="{% url 'authentication:register' %}" class="btn">Register</a>
+    </div>
+</body>
+{% endblock %}

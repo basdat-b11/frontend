@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIST ALBUM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-blue-bg {
+            background-color: #007bff !important;
+            color: #fff;
+        }
+        .custom-yellow-bg {
+            background-color: #ecdaab !important;
+            color: #000000;
+        }
+        .custom-btn {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .custom-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        table {
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <i class="fa fa-music text-primary display-4"></i>
+            <h1 class="display-4">Your Songs</h1>
+            <p class="lead">From Album 1</p>
+        </div>
+        <div class="card custom-blue-bg mb-5">
+            <div class="card-body">
+                <h1 class="card-title">{{ judul }}</h1>
+                <p class="card-text">{{ total_play }} streams • {{ total_download }} downloads • {{ total_durasi }} minute(s)</p>
+                <p class="card-text">{{ judul }} is a song with {{ total_play }} streams and {{ total_download }} downloads. And a duration of {{ total_durasi }} minute(s).</p>
+                <a href="/daftar-album-song/list-album/1/songs" class="btn custom-btn">Go to Song</a>
+                <a href="/daftar-album-song/list-album/1/edit-song/1" class="btn custom-btn">Edit Song</a>
+                <a href="/daftar-album-song/list-album/1/songs" class="btn custom-btn">Delete Song</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="/daftar-album-song/list-album/1/create-song/1" class="btn btn-lg custom-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg> Add New Song
+            </a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

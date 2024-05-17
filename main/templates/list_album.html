@@ -82,35 +82,22 @@
                 </tr>
             </thead>
             <tbody>
+                {% for album in albums %}
                 <tr>
-                    <td>Album 1</td>
-                    <td>Label A</td>
-                    <td>0</td>
-                    <td>0 menit</td>
+                    <td>{{ album.1 }}</td>
+                    <td>{{ album.3 }}</td>
+                    <td>{{ album.2 }}</td>
+                    <td>{{ album.4 }} menit</td>
                     <td>
                         <button class="btn custom-btn">Daftar Lagu</button>
                         <button class="btn custom-btn">Tambah Lagu</button>
-                        <button class="btn custom-btn">Hapus</button>
+                        <form method="post" action="{% url 'delete_album' album.0 %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn custom-btn">Hapus</button>
+                        </form>
                     </td>
                 </tr>
-                <tr>
-                    <td>Album 2</td>
-                    <td>Label B</td>
-                    <td>2</td>
-                    <td>4 menit</td>
-                    <td>
-                        <button class="btn custom-btn">Daftar Lagu</button>
-                        <button class="btn custom-btn">Tambah Lagu</button>
-                        <button class="btn custom-btn">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>...</td>
-                    <td>...</td>
-                    <td>...</td>
-                    <td>...</td>
-                    <td>...</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
