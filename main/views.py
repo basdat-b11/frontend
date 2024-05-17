@@ -241,4 +241,18 @@ def pencarian(request):
             'hasil_pencarian': query,
         }
         return render(request, 'search-result-page.html', context)
+    
+def hapus_lagu(request, id_lagu):
+    email = request.session.get('email')
+    with connection.cursor() as cursor:
+        cursor = connection.cursor()
+        cursor.execute("SET SEARCH_PATH TO MARMUT;")
+        cursor.execute(f"UPDATE SONG SET total_download = total_download - 1 WHERE id_konten = '{id_lagu}';")
+        connection.commit()
+        cursor.execute(f"DELETE FROM DOWNLOADED_SONG WHERE id_song = '{id_lagu}' AND email_downloader = '{email}';")
+        connection.commit()
+        cursor.close()
+        connection.close()
+    
+    return redirect('main:unduhan_lagu')
 
