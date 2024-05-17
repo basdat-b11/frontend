@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      /* Custom CSS */
+      .profile-info {
+          margin-bottom: 20px;
+      }
+
+      .profile-info label {
+          font-weight: bold;
+      }
+
+      .playlist-item {
+          cursor: pointer;
+      }
+
+      .playlist-item:hover {
+          text-decoration: underline;
+      }
+
+      body {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 5px 10px;
+      }
+  </style>
+</head>
+
+<body>
+
+<div id="formContainer">
+  <form action="/kelolaplaylist/edit/{{ id }}" method="post" style="margin: 50px 0px 15px 0px">
+      {% csrf_token %}
+      <label for="judul_playlist">Judul Playlist:</label><br>
+      <input required type="text" id="judul_playlist" name="judul_playlist" value="{{ judul }}"><br>
+      <label for="deskripsi_playlist">Deskripsi Playlist:</label><br>
+      <input required type="text" id="deskripsi_playlist" name="deskripsi_playlist"  value="{{ deskripsi }}"><br>
+      <input type="submit" value="Edit Playlist">
+  </form>
+</div>
+
+</body>
+</html>

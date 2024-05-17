@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      /* Custom CSS */
+      .profile-info {
+          margin-bottom: 20px;
+      }
+
+      .profile-info label {
+          font-weight: bold;
+      }
+
+      .playlist-item {
+          cursor: pointer;
+      }
+
+      .playlist-item:hover {
+          text-decoration: underline;
+      }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">marmut-b11</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="form-inline my-2 my-lg-0 mx-auto">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Chart</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Kelola Playlist</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Langganan Paket</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Logout</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+
+  <title>User Playlist Detail</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center; /* Teks di tabel di tengah */
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .action-buttons {
+      text-align: center;
+    }
+    .action-buttons button {
+      margin-right: 5px;
+    }
+    h1 {
+      text-align: center; /* Teks "User Playlist Detail" di tengah */
+    }
+    h3 {
+      text-align: center; /* Teks "DAFTAR LAGU" di tengah */
+    }
+  </style>
+
+  <div style="margin-left: 15px">
+    <h1 style="margin: 15px 0px 20px 0px">USER PLAYLIST DETAIL</h1>
+    <p>Judul: Playlist1</p>
+    <p>Pembuat: Pembuat1</p>
+    <p>Jumlah Lagu: 12</p>
+    <p>Total Durasi: 8 jam 20 menit</p>
+    <p>Tanggal Dibuat: 18/03/24</p>
+    <p>Deskripsi: Lorem Ipsum ...</p>
+    <div class="action-buttons">
+      <button style="margin-bottom: 5px;">Shuffle Play</button><br>
+      <button>Kembali</button>
+    </div>
+  </div>
+
+  <h1 style="margin: 50px 0px 15px 0px">DAFTAR LAGU</h1>
+  <table>
+    <tr>
+      <th>Judul Lagu</th>
+      <th>Oleh</th>
+      <th>Durasi</th>
+      <th>Actions</th>
+    </tr>
+    <tr>
+      <td>Song1</td>
+      <td>Artist1</td>
+      <td>2 menit</td>
+      <td class="action-buttons">
+        <button style="margin-bottom: 5px;">Lihat</button><br>
+        <button style="margin-bottom: 5px;">Play</button><br>
+        <button>Hapus</button>
+      </td>
+    </tr>
+    <tr>
+      <td>Song2</td>
+      <td>Artist2</td>
+      <td>3 menit</td>
+      <td class="action-buttons">
+        <button style="margin-bottom: 5px;">Lihat</button><br>
+        <button style="margin-bottom: 5px;">Play</button><br>
+        <button>Hapus</button>
+      </td>
+    </tr>
+    <!-- Tambahkan baris lainnya di sini -->
+  </table>
+  <div class="action-buttons">
+    <button style="margin: 20px 0px 20px 0px;">Tambah Lagu</button>
+  </div>
+</body>
+</html>
