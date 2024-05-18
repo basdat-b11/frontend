@@ -36,7 +36,7 @@
         <div class="card mb-5">
             <div class="card-body">
                 {% csrf_token %}
-                <form method="POST">
+                <form action="/main/kelolaalbum/create-album/" method="post">
                     <div class="form-group">
                         <label for="judul_album">Album Name</label>
                         <input type="text" class="form-control" id="judul_album" name="judul_album" required>
@@ -46,6 +46,11 @@
                         <select class="form-control" id="label" name="label" required>
                             {% for label in labels %}
                             <option value="{{ label.0 }}">{{ label.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        <select class="form-control" id="song" name="song" required>
+                            {% for song in songs %}
+                            <option value="{{ song.0 }}">{{ song.1 }}</option>
                             {% endfor %}
                         </select>
                     </div>

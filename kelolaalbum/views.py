@@ -50,23 +50,42 @@ def list_album(cursor: CursorWrapper, request):
     print (result)
     return render(request, 'list_album_songwriter_artist.html', {'albums' : albums})
 
-@connectdb 
+@connectdb
 @csrf_exempt
 def create_album(cursor: CursorWrapper, request):
     if request.method == 'POST':
         judul_album = request.POST['judul_album']
         id_label = request.POST['label']
+        selected_songs = request.POST.getlist('songs')  # Get the selected songs
         id_album = uuid.uuid4()
         
         cursor.execute("Set search_path to marmut;")
         cursor.execute("""
                         INSERT INTO album (id, judul, jumlah_lagu, total_durasi, id_label)
                         VALUES (%s, %s, %s, %s, %s)
-                        """, [id_album, judul_album, 0, 0, id_label])
-        return redirect(reverse('daftar_album_song:list_album'))
+                        """, [id_album, judul_album, len(selected_songs), 0, id_label])
+        
+        # Insert songs into the album
+        for song_id in selected_songs:
+            cursor.execute("""
+                           INSERT INTO song_album (id_song, id_album)
+                           VALUES (%s, %s)
+                           """, [song_id, id_album])
+        
+        return redirect('/main/kelolaalbum/list-album/')
 
+    # Fetch labels for dropdown
     cursor.execute("Set search_path to marmut;")
     cursor.execute("SELECT id, nama FROM label")
     labels = cursor.fetchall()
+
+    cursor.execute("""
+                   SELECT song.id_konten, song.judul
+                   FROM song
+                   JOIN artist ON song.id_artist = artist.id
+                   JOIN akun ON artist.email_akun = akun.email
+                   WHERE akun.email = %s
+                   """, [email])
+    songs = cursor.fetchall()
     
-    return render(request, 'create_album.html', {'labels': labels})
+    return render(request, 'create_album.html', {'labels': labels, 'songs': songs})
