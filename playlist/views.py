@@ -1,3 +1,4 @@
+import json
 from django.db import connection
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -115,10 +116,9 @@ def playlist(request, id_user_playlist):
     })
 
 def tambahlagu(request, id_user_playlist):
-    id_lagu = request.POST['id_lagu']
-    is_api = request.POST.get('is_api', False)
-
-    print("ID Playlist: ", id_user_playlist)
+    data = json.loads(request.body)
+    id_lagu = data.get('song_id')
+    is_api = data.get('is_api', False)
 
     with connection.cursor() as cursor:
         cursor.execute("Set search_path to marmut;")
@@ -152,65 +152,56 @@ def tambahlagu(request, id_user_playlist):
 
     return HttpResponseRedirect(previous_page)
 
+def shuffle(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email_pemain = request.session["email"]
+        email_pembuat = ''
+        id_user_playlist = data.get('id_user_playlist')
 
-#                         Table "marmut.user_playlist"
-#       Column      |          Type          | Collation | Nullable | Default
-# ------------------+------------------------+-----------+----------+---------
-#  email_pembuat    | character varying(50)  |           | not null |
-#  id_user_playlist | uuid                   |           | not null |
-#  judul            | character varying(100) |           | not null |
-#  deskripsi        | character varying(500) |           | not null |
-#  jumlah_lagu      | integer                |           | not null |
-#  tanggal_dibuat   | date                   |           | not null |
-#  id_playlist      | uuid                   |           |          |
-#  total_durasi     | integer                |           | not null | 0
-# Indexes:
-#     "user_playlist_pkey" PRIMARY KEY, btree (email_pembuat, id_user_playlist)
-# Foreign-key constraints:
-#     "user_playlist_email_pembuat_fkey" FOREIGN KEY (email_pembuat) REFERENCES akun(email) ON UPDATE CASCADE ON DELETE CASCADE
-#     "user_playlist_id_playlist_fkey" FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON UPDATE CASCADE ON DELETE CASCADE
-# Referenced by:
-#     TABLE "akun_play_user_playlist" CONSTRAINT "akun_play_user_playlist_id_user_playlist_email_pembuat_fkey" FOREIGN KEY (id_user_playlist, email_pembuat) REFERENCES user_playlist(id_user_playlist, email_pembuat) ON UPDATE CASCADE ON DELETE CASCADE
+        with connection.cursor() as cursor:
+            cursor.execute("Set search_path to marmut;")
 
-#             Table "marmut.playlist"
-#  Column | Type | Collation | Nullable | Default
-# --------+------+-----------+----------+---------
-#  id     | uuid |           | not null |
-# Indexes:
-#     "playlist_pkey" PRIMARY KEY, btree (id)
-# Referenced by:
-#     TABLE "chart" CONSTRAINT "chart_id_playlist_fkey" FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON UPDATE CASCADE ON DELETE CASCADE
-#     TABLE "playlist_song" CONSTRAINT "playlist_song_id_playlist_fkey" FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON UPDATE CASCADE ON DELETE CASCADE
-#     TABLE "user_playlist" CONSTRAINT "user_playlist_id_playlist_fkey" FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON UPDATE CASCADE ON DELETE CASCADE
+            cursor.execute("""
+                            SELECT email_pembuat
+                            FROM user_playlist
+                            WHERE id_user_playlist = %s;
+                            """, [id_user_playlist])
+            result = cursor.fetchall()
+            email_pembuat = result[0][0]
+            
+            cursor.execute("""
+                           INSERT INTO akun_play_user_playlist (email_pemain, id_user_playlist, email_pembuat, waktu)
+                            VALUES (%s, %s, %s, NOW());
+                            """, [email_pemain, id_user_playlist, email_pembuat])
 
-#             Table "marmut.playlist_song"
-#    Column    | Type | Collation | Nullable | Default
-# -------------+------+-----------+----------+---------
-#  id_playlist | uuid |           | not null |
-#  id_song     | uuid |           | not null |
-# Indexes:
-#     "playlist_song_pkey" PRIMARY KEY, btree (id_playlist, id_song)
-# Foreign-key constraints:
-#     "playlist_song_id_playlist_fkey" FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON UPDATE CASCADE ON DELETE CASCADE
-#     "playlist_song_id_song_fkey" FOREIGN KEY (id_song) REFERENCES song(id_konten) ON UPDATE CASCADE ON DELETE CASCADE
+            cursor.execute("""
+                            SELECT id_song
+                            FROM playlist_song
+                            WHERE id_playlist = (
+                                SELECT id_playlist
+                                FROM user_playlist
+                                WHERE id_user_playlist = %s
+                            );
+                            """, [id_user_playlist])
+            result = cursor.fetchall()
+            daftar_lagu = [row[0] for row in result]
 
-#                     Table "marmut.song"
-#      Column     |  Type   | Collation | Nullable | Default
-# ----------------+---------+-----------+----------+---------
-#  id_konten      | uuid    |           | not null |
-#  id_artist      | uuid    |           |          |
-#  id_album       | uuid    |           |          |
-#  total_play     | integer |           | not null | 0
-#  total_download | integer |           | not null | 0
-# Indexes:
-#     "song_pkey" PRIMARY KEY, btree (id_konten)
-# Foreign-key constraints:
-#     "song_id_album_fkey" FOREIGN KEY (id_album) REFERENCES album(id) ON UPDATE CASCADE ON DELETE CASCADE
-#     "song_id_artist_fkey" FOREIGN KEY (id_artist) REFERENCES artist(id) ON UPDATE CASCADE ON DELETE CASCADE
-#     "song_id_konten_fkey" FOREIGN KEY (id_konten) REFERENCES konten(id) ON UPDATE CASCADE ON DELETE CASCADE
-# Referenced by:
-#     TABLE "akun_play_song" CONSTRAINT "akun_play_song_id_song_fkey" FOREIGN KEY (id_song) REFERENCES song(id_konten) ON UPDATE CASCADE ON DELETE CASCADE
-#     TABLE "downloaded_song" CONSTRAINT "downloaded_song_id_song_fkey" FOREIGN KEY (id_song) REFERENCES song(id_konten) ON UPDATE CASCADE ON DELETE CASCADE
-#     TABLE "playlist_song" CONSTRAINT "playlist_song_id_song_fkey" FOREIGN KEY (id_song) REFERENCES song(id_konten) ON UPDATE CASCADE ON DELETE CASCADE
-#     TABLE "royalti" CONSTRAINT "royalti_id_song_fkey" FOREIGN KEY (id_song) REFERENCES song(id_konten) ON UPDATE CASCADE ON DELETE CASCADE
-#     TABLE "songwriter_write_song" CONSTRAINT "songwriter_write_song_id_song_fkey" FOREIGN KEY (id_song) REFERENCES song(id_konten) ON UPDATE CASCADE ON DELETE CASCADE
+            print(daftar_lagu)
+
+            for lagu in daftar_lagu:
+                cursor.execute("""
+                                UPDATE song
+                                SET total_play = total_play + 1
+                                WHERE id_konten = %s;
+                                """, [lagu])
+                
+                cursor.execute("""
+                                INSERT INTO akun_play_song (email_pemain, id_song, waktu)
+                                VALUES (%s, %s, now());
+                                """, [email_pembuat, lagu])
+                print("laguuuuuuuuuu", lagu)
+
+    print(email_pemain, email_pembuat, id_user_playlist)
+
+    return JsonResponse({'status': 'success'})

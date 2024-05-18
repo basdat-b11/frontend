@@ -73,8 +73,8 @@
         <p>Tanggal Dibuat: {{ tanggal_dibuat }}</p>
         <p>Deskripsi: {{ deskripsi }}</p>
         <div class="text-center">
-          <button id="shuffle" class="btn btn-primary" onclick="alert('Shuffle Play!')">Shuffle Play</button>
-          <a href="/kelolaplaylist/" class="btn btn-secondary">Kembali</a>
+          <button id="shuffle" class="btn btn-primary">Shuffle Play</button>
+          <a href="/main/kelolaplaylist/" class="btn btn-secondary">Kembali</a>
         </div>
       </div>
     </div>
@@ -98,9 +98,9 @@
                 <td>{{ song.artist }}</td>
                 <td>{{ song.durasi }}</td>
                 <td class="text-center">
-                  <a href="/songdetail/view/{{ song.id }}" class="btn btn-info">Lihat</a>
-                  <button class="btn btn-primary" onclick="alert('Playing {{song.judul}}')">Play</button>
-                  <a href="/songdetail/delete/{{id_playlist}}/{{ song.id }}" class="btn btn-danger">Hapus</a>
+                  <a href="/main/songdetail/view/{{ song.id }}" class="btn btn-info">Lihat</a>
+                  <a href="/main/songdetail/play2/{{ song.id }}" class="btn btn-primary">Play</a>
+                  <a href="/main/songdetail/delete/{{id_playlist}}/{{ song.id }}" class="btn btn-danger">Hapus</a>
                 </td>
               </tr>
             {% endfor %}
@@ -112,7 +112,7 @@
     <div class="row">
       <div class="col-md-6 offset-md-3"></div>
         <div id="formContainer" style="display: none; margin: 0 auto; text-align: center;">
-          <form action="/playlist/tambahlagu/{{ id_user_playlist }}/" method="post" style="margin: 50px 0px 15px 0px">
+          <form action="/main/playlist/tambahlagu/{{ id_user_playlist }}/" method="post" style="margin: 50px 0px 15px 0px">
             {% csrf_token %}
             <label for="id_lagu">Lagu:</label>
             <select name="id_lagu" id="id_lagu" class="form-control">
@@ -149,7 +149,26 @@
   });
 
   document.getElementById('shuffle').addEventListener('click', function() {
-    
+      fetch('/main/playlist/shuffle/song/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+              pembuat: '{{ pembuat }}',
+              id_user_playlist: '{{ id_user_playlist }}',
+          }),
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data)
+          alert('Berhasil shuffle lagu {{ judul_lagu }}');
+          location.reload();
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+
   });
 </script>
 </html>

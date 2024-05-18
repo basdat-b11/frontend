@@ -114,8 +114,6 @@
         <div id="playlistForm" style="display: none;">
             <br>
             <br>
-            <form>
-                {% csrf_token %}
                 <h4>ADD SONG TO USER PLAYLIST</h4>
                 <p>Judul: <span class="bold">{{ judul_lagu }}</span></p>
                 <p>Artist: <span class="bold">{{ artist }}</span></p>
@@ -128,18 +126,16 @@
                     </select>
                 </div>
                 <button id="addsong" type="submit">Tambah</button>
-            </form>
             <br>
             <br>
         </div>
         <button style="margin-bottom: 5px;" id="showFormButton">Add to Playlist</button><br>
 
-
         {% if is_premium %}
             <button id="download" style="margin-bottom: 5px;">Download</button><br>
         {% endif %}
 
-        <a href="/kelolaplaylist/"><button>Kembali</button></a>
+        <a href="/main/kelolaplaylist/"><button>Kembali</button></a>
 
     </div>
     
@@ -159,7 +155,7 @@
             var song_id = '{{ song_id }}';
             var email_pembuat = '{{ email_pembuat }}';
 
-            fetch('/songdetail/play/', {
+            fetch('/main/songdetail/play/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -187,17 +183,14 @@
             var song_id = '{{ song_id }}';
             var nama_playlist = document.getElementById('judul_playlist').options[document.getElementById('judul_playlist').selectedIndex].text;
 
-            var api_target = '/playlist/tambahlagu/' + playlist + '/';
-
-            var formData = new FormData(document.querySelector('form'));
-            formData.append('is_api', true);
+            var api_target = '/main/playlist/tambahlagu/' + playlist + '/';
 
             fetch(api_target, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: formData
+                body: JSON.stringify({ song_id: song_id, playlist: playlist, is_api: true })
             })
             .then(response => response.json())
             .then(data => {
@@ -207,36 +200,38 @@
                 console.error('Error:', error);
             });
 
-            var url = '/songdetail/redirect-choice/?song_id=' + song_id + '&playlist=' + playlist;
+            var url = '/main/songdetail/redirect-choice/?song_id=' + song_id + '&playlist=' + playlist;
             
             location.assign(url)
             alert('Berhasil menambahkan Lagu dengan judul {{ judul_lagu }} ke dalam Playlist ' + nama_playlist);
         });
 
         document.getElementById('download').addEventListener('click', function() {
-            var playlist = document.getElementById('judul_playlist').value;
             var song_id = '{{ song_id }}';
 
-            var api_target = '/playlist/tambahlagu/' + playlist + '/';
-
-            var formData = new FormData(document.querySelector('form'));
-            formData.append('is_api', true);
-
-            fetch(api_target, {
+            fetch('/main/songdetail/download/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: formData
+                body: JSON.stringify({ 
+                    song_id: song_id,
+                    judul_lagu: '{{ judul_lagu }}',
+                }),
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                console.log(data)
+                alert('Berhasil download lagu {{ judul_lagu }}');
+                location.reload();
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-            alert('Berhasil mengunduh Lagu dengan judul {{ judul_lagu }}');
+
+            var url = '/main/songdetail/redirect-download/?song_id=' + song_id + '&judul_lagu={{ judul_lagu }}';
+            
+            location.assign(url)
         });
 
         document.getElementById('showFormButton').addEventListener('click', function() {

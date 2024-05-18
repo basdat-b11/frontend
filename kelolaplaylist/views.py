@@ -3,9 +3,10 @@ from django.db import connection
 from django.shortcuts import render, redirect
 from datetime import date
 
-email_pembuat = 'angela93@hotmail.com'
 
 def kelolaplaylist(request):
+    email_pembuat = request.session["email"]
+    print(email_pembuat)
     if request.method == 'POST':
         judul_playlist = request.POST['judul_playlist']
         deskripsi_playlist = request.POST['deskripsi_playlist']
@@ -35,7 +36,7 @@ def kelolaplaylist(request):
                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                            """, [email_pembuat, id_user_playlist, judul_playlist, deskripsi_playlist, 0, date.today(), id_playlist, 0])
             
-            return redirect('/kelolaplaylist/')
+            return redirect('/main/kelolaplaylist/')
             
     with connection.cursor() as cursor:
         cursor.execute("Set search_path to marmut;")
@@ -78,7 +79,7 @@ def editplaylist(request, id_playlist):
                             WHERE id_user_playlist = %s;
                             """, [judul_playlist, deskripsi_playlist, id_playlist])
             
-            return redirect('/kelolaplaylist/')
+            return redirect('/main/kelolaplaylist/')
         
     judul_playlist = ''
     deskripsi_playlist = ''
@@ -106,4 +107,4 @@ def deleteplaylist(request, id_playlist):
                         WHERE id_user_playlist = %s;
                         """, [id_playlist])
         
-    return redirect('/kelolaplaylist/')
+    return redirect('/main/kelolaplaylist/')

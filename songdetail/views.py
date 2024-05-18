@@ -5,9 +5,9 @@ from django.shortcuts import render
 
 
 # email_pembuat = request.user.email,
-email_pembuat = 'angela93@hotmail.com'
 
 def song_detail(request):
+    email_pembuat = request.session["email"]
     judul_lagu = 'Many production choice choice'
     genres = []
     artist = ''
@@ -108,6 +108,7 @@ def song_detail(request):
     })
 
 def song_detail_by_id(request, id_konten):
+    email_pembuat = request.session["email"]
     judul_lagu = ''
 
     with connection.cursor() as cursor:
@@ -221,9 +222,11 @@ def song_detail_by_id(request, id_konten):
 def play(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        email_pembuat = data.get('email_pembuat')
+        email_pembuat = request.session["email"]
         progress = data.get('progress')
         song_id = data.get('song_id')
+
+        print(email_pembuat, progress, song_id)
         
         if int(progress) > 70:
             with connection.cursor() as cursor:
@@ -240,6 +243,55 @@ def play(request):
                                 """, [email_pembuat, song_id])
 
     return JsonResponse({'status': 'success'})
+
+def play2(request, id_konten):
+    email_pembuat = request.session["email"]
+    song_id = id_konten
+
+    with connection.cursor() as cursor:
+        cursor.execute("Set search_path to marmut;")
+        cursor.execute("""
+                        UPDATE song
+                        SET total_play = total_play + 1
+                        WHERE id_konten = %s;
+                        """, [song_id])
+        
+        cursor.execute("""
+                        INSERT INTO akun_play_song (email_pemain, id_song, waktu)
+                        VALUES (%s, %s, now());
+                        """, [email_pembuat, song_id])
+
+    previous_page = request.META.get('HTTP_REFERER')
+
+    return HttpResponseRedirect(previous_page)
+
+def download(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email_pembuat = request.session["email"]
+        song_id = data.get('song_id')
+        song_name = data.get('judul_lagu')
+
+        print(email_pembuat, song_id, song_name)
+        
+        with connection.cursor() as cursor:
+            cursor.execute("Set search_path to marmut;")
+            cursor.execute("""
+                            UPDATE song
+                            SET total_download = total_download + 1
+                            WHERE id_konten = %s;
+                            """, [song_id])
+            
+            cursor.execute("""
+                            INSERT INTO downloaded_song (email_downloader, id_song)
+                            VALUES (%s, %s);
+                            """, [email_pembuat, song_id])
+
+    print('HEREE=====================')
+    return render(request, 'download_redirect.html', {
+        "song_id": song_id,
+        "song_name": song_name,
+    })
 
 def delete(request, id_playlist, id_konten):
     with connection.cursor() as cursor:
@@ -299,4 +351,13 @@ def redirectchoice(request):
         "song_id": song_id,
         "song_name": song_name,
         "playlist_name": playlist_name
+    })
+
+def redirectdownload(request):
+    song_id = request.GET.get('song_id')
+    judul_lagu = request.GET.get('judul_lagu')
+
+    return render(request, 'download_redirect.html', {
+        "song_id": song_id,
+        "judul_lagu": judul_lagu,
     })
