@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Chart</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card-header {
+      background-color: #272727;
+      color: #fff;
+    }
+    .card-footer {
+      background-color: #f8f9fa;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .btn-primary {
+      background-color: #585858;
+      border-color: #585858;
+    }
+    .btn-primary:hover {
+      background-color: #272727;
+      border-color: #272727;
+    }
+    .btn-secondary {
+      margin-top: 20px;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+      border-color: #545b62;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">marmut-b11</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0 mx-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Chart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kelola Playlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Langganan Paket</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Logout</a>
+            </li>
+        </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h1 class="text-center">Daftar Chart</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Daily Top 20</h5>
+          </div>
+          <div class="card-footer text-right">
+            <a href="/melihatchart/daily-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Weekly Top 20</h5>
+          </div>
+          <div class="card-footer text-right">
+            <a href="/melihatchart/weekly-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Monthly Top 20</h5>
+          </div>
+          <div class="card-footer text-right">
+            <a href="/melihatchart/monthly-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Yearly Top 20</h5>
+          </div>
+          <div class="card-footer text-right">
+            <a href="/melihatchart/yearly-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <a href="javascript:history.back()" class="btn btn-secondary">Kembali</a>
+    </div>
+  </div>
+</body>
+</html>

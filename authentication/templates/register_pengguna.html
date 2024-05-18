@@ -1,0 +1,106 @@
+
+
+{% load static %}
+
+{% block content %}
+<head>
+    <title>Register Pengguna</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>FORM REGISTRASI - Pengguna</h2>
+        {% csrf_token %}
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tempat_lahir">Tempat lahir:</label>
+                <input type="text" id="tempat_lahir" name="tempat_lahir" required>
+            </div>
+            <div class="form-group">
+                <label for="tanggal_lahir">Tanggal lahir:</label>
+                <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
+            </div>
+            <div class="form-group">
+                <label for="kota_asal">Kota asal:</label>
+                <input type="text" id="kota_asal" name="kota_asal" required>
+            </div>
+            <div class="form-group">
+                <label>Role:</label><br>
+                <input type="checkbox" id="podcaster" name="role" value="Podcaster">
+                <label for="podcaster">Podcaster</label><br>
+                <input type="checkbox" id="artist" name="role" value="Artist">
+                <label for="artist">Artist</label><br>
+                <input type="checkbox" id="songwriter" name="role" value="Songwriter">
+                <label for="songwriter">Songwriter</label><br>
+            </div>                      
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </div>
+</body>
+{% endblock %}
