@@ -241,18 +241,30 @@ def play(request):
 
     return JsonResponse({'status': 'success'})
 
-def delete(request, id_konten):
+def delete(request, id_playlist, id_konten):
     with connection.cursor() as cursor:
         cursor.execute("Set search_path to marmut;")
         cursor.execute("""
-                        DELETE FROM konten
-                        WHERE id = %s;
+                        DELETE FROM playlist_song
+                        WHERE id_playlist = %s AND id_song = %s;
+                        """, [id_playlist, id_konten])
+        
+        durasi_lagu = 0
+        cursor.execute("""
+                        SELECT durasi
+                        FROM konten
+                        JOIN song ON konten.id = song.id_konten
+                        WHERE song.id_konten = %s;
                         """, [id_konten])
+        result = cursor.fetchall()
+        durasi_lagu = result[0][0]
 
         cursor.execute("""
-                        DELETE FROM song
-                        WHERE id_konten = %s;
-                        """, [id_konten])
+                        UPDATE user_playlist
+                        SET total_durasi = total_durasi - %s,
+                            jumlah_lagu = jumlah_lagu - 1
+                        WHERE id_playlist = %s;
+                        """, [durasi_lagu, id_playlist])
         
     previous_page = request.META.get('HTTP_REFERER')
 
