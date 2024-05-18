@@ -102,7 +102,7 @@
       <div>Anda Belum Memiliki Playlist</div>
     {% endif %}
   <div id="formContainer" style="display: none;">
-    <form action="/kelolaplaylist/" method="post" style="margin: 50px 0px 15px 0px">
+    <form action="/main/kelolaplaylist/" method="post" style="margin: 50px 0px 15px 0px">
         {% csrf_token %}
         <label for="judul_playlist">Judul Playlist:</label><br>
         <input required type="text" id="judul_playlist" name="judul_playlist"><br>

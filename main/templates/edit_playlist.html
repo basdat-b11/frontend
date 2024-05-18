@@ -36,15 +36,46 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">marmut-b11</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0 mx-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Chart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kelola Playlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Langganan Paket</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div id="formContainer">
-  <form action="/kelolaplaylist/edit/{{ id }}" method="post" style="margin: 50px 0px 15px 0px">
+  <form action="/main/kelolaplaylist/edit/{{ id }}" method="post" class="d-flex flex-column justify-content-center align-items-center mx-auto w-50" style="margin: 50px 0px 15px 0px">
       {% csrf_token %}
-      <label for="judul_playlist">Judul Playlist:</label><br>
-      <input required type="text" id="judul_playlist" name="judul_playlist" value="{{ judul }}"><br>
-      <label for="deskripsi_playlist">Deskripsi Playlist:</label><br>
-      <input required type="text" id="deskripsi_playlist" name="deskripsi_playlist"  value="{{ deskripsi }}"><br>
-      <input type="submit" value="Edit Playlist">
+      <div class="form-group">
+          <label for="judul_playlist">Judul Playlist:</label>
+          <input required type="text" class="form-control" id="judul_playlist" name="judul_playlist" value="{{ judul }}">
+      </div>
+      <div class="form-group">
+          <label for="deskripsi_playlist">Deskripsi Playlist:</label>
+          <input required type="text" class="form-control" id="deskripsi_playlist" name="deskripsi_playlist"  value="{{ deskripsi }}">
+      </div>
+      <button type="submit" class="btn btn-primary">Edit Playlist</button>
   </form>
 </div>
 
