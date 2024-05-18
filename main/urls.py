@@ -26,5 +26,6 @@ urlpatterns = [
     path('riwayat-langganan/', riwayat_langganan, name='riwayat_langganan'),
     path('unduhan-lagu/', unduhan_lagu, name='unduhan_lagu'),
     path('cari', pencarian, name='pencarian'),
-    path('delete/<str:id_lagu>/', hapus_lagu, name='hapus_lagu'),
+    # path('lagulist-album-label', lagulist_album_label, name='lagulist_album_label'),
+    path('test', test_akun, name='test_akun')
 ]

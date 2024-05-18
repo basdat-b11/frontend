@@ -9,6 +9,7 @@ from datetime import date
 from django.db.backends.utils import CursorWrapper
 from django.http import HttpResponseRedirect
 from utils.query import connectdb
+from django.views.decorators.csrf import csrf_exempt
 
 email = 'robyn54@yahoo.com'
 
@@ -29,14 +30,62 @@ def list_album(cursor: CursorWrapper, request):
                 GROUP BY album.judul, akun.nama, label.nama, album.jumlah_lagu, album.total_durasi;
                                 """)
     cursor.execute(query)
-    albums = cursor.fetchall()
-    print (albums)
-    
-    context = {
-        "judul": albums[0][0],
-        "label": albums[0][1],
-        "jumlah_lagu": albums[0][2],
-        "total_durasi": albums[0][3],
-    }
+    result = cursor.fetchall()
+    print (result)
+    albums = []
+    for row in result:
+        durasi = row[2]
+        durasi_jam = durasi // 60
+        durasi_menit = durasi % 60
+        if durasi_jam == 0:
+            durasi = str(durasi_menit) + " menit"
+        else:
+            durasi = str(durasi_jam) + " jam " + str(durasi_menit) + " menit"
+        albums.append({
+            "judul": row[0],
+            "label": row[1],
+            "jumlah_lagu": row[2],
+            "total_durasi": durasi,
+        })
+    print (result)
+    return render(request, 'list_album_songwriter_artist.html', {'albums' : albums})
 
-    return render(request, 'list_album_songwriter_artist.html', context)
+@connectdb
+@csrf_exempt
+def create_album(cursor: CursorWrapper, request):
+    if request.method == 'POST':
+        judul_album = request.POST['judul_album']
+        id_label = request.POST['label']
+        selected_songs = request.POST.getlist('songs')  # Get the selected songs
+        id_album = uuid.uuid4()
+        
+        cursor.execute("Set search_path to marmut;")
+        cursor.execute("""
+                        INSERT INTO album (id, judul, jumlah_lagu, total_durasi, id_label)
+                        VALUES (%s, %s, %s, %s, %s)
+                        """, [id_album, judul_album, len(selected_songs), 0, id_label])
+        
+        # Insert songs into the album
+        for song_id in selected_songs:
+            cursor.execute("""
+                           INSERT INTO song_album (id_song, id_album)
+                           VALUES (%s, %s)
+                           """, [song_id, id_album])
+        
+        return redirect('/main/kelolaalbum/list-album/')
+
+    # Fetch labels for dropdown
+    cursor.execute("Set search_path to marmut;")
+    cursor.execute("SELECT id, nama FROM label")
+    labels = cursor.fetchall()
+
+    cursor.execute("""
+                   SELECT song.id_konten, song.judul
+                   FROM song
+                   JOIN artist ON song.id_artist = artist.id
+                   JOIN akun ON artist.email_akun = akun.email
+                   WHERE akun.email = %s
+                   """, [email])
+    songs = cursor.fetchall()
+    
+    return render(request, 'create_album.html', {'labels': labels, 'songs': songs})

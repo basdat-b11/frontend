@@ -29,31 +29,82 @@
     </style>
 </head>
 <body>
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <i class="fa fa-music text-primary display-4"></i>
-            <h1 class="display-4">Your Songs</h1>
-            <p class="lead">From Album 1</p>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">marmut-b11</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Playlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/main/kelolaalbum/create-album/">Kelola Album</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Songs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Langganan Paket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
         </div>
-        <div class="card custom-blue-bg mb-5">
-            <div class="card-body">
-                <h1 class="card-title">{{ judul }}</h1>
-                <p class="card-text">{{ total_play }} streams • {{ total_download }} downloads • {{ total_durasi }} minute(s)</p>
-                <p class="card-text">{{ judul }} is a song with {{ total_play }} streams and {{ total_download }} downloads. And a duration of {{ total_durasi }} minute(s).</p>
-                <a href="/daftar-album-song/list-album/1/songs" class="btn custom-btn">Go to Song</a>
-                <a href="/daftar-album-song/list-album/1/edit-song/1" class="btn custom-btn">Edit Song</a>
-                <a href="/daftar-album-song/list-album/1/songs" class="btn custom-btn">Delete Song</a>
-            </div>
+    </nav>
+  
+    <h1 style="margin: 20px 0px 50px 0px;">ALBUMS</h1>
+    <br>
+    <br>
+    {% if albums %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Judul Album</th>
+                  <th>Label</th>
+                  <th>Jumlah lagu</th>
+                  <th>Total Durasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for album in albums %}
+                  <tr>
+                    <td>{{ album.judul }}</td>
+                    <td>{{ album.label }}</td>
+                    <td>{{ album.jumlah_lagu }}</td>
+                    <td>{{ album.total_durasi }}</td>
+                    <td>
+                      <a href="/main/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">List Lagu</a>
+                      <a href="/main/kelolaplaylist/edit/{{ playlist.id }}" class="btn btn-warning btn-sm">Tambah Lagu</a>
+                      <a href="/main/kelolaplaylist/delete/{{ playlist.id }}" class="btn btn-danger btn-sm">Hapus</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="text-center">
-            <a href="/daftar-album-song/list-album/1/create-song/1" class="btn btn-lg custom-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg> Add New Song
-            </a>
-        </div>
-    </div>
+      </div>
+    {% else %}
+      <div>Anda Belum Memiliki Album</div>
+    {% endif %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
