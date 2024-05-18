@@ -56,39 +56,24 @@
         <h1 class="mb-4">List Podcasts</h1>
         <a href="/kelolapodcast/create-podcast" class="btn btn-primary mb-3">Add New Podcast</a>
         <div class="row g-4">
+            {% for podcast in podcasts %}
             <div class="col-12">
                 <div class="card">
                     <div class="card-body d-flex justify-content-between">
                         <div>
-                            <h5 class="card-title">Podcast A</h5>
-                            <p class="card-text">Number of Episodes: X</p>
-                            <p class="card-text">Total Duration: XX:XX:XX</p>
+                            <h5 class="card-title">{{ podcast.judul_podcast }}</h5>
+                            <p class="card-text">Number of Episodes: {{ podcast.total_episode }}</p>
+                            <p class="card-text">Total Duration: {{ podcast.total_durasi }}</p>
                         </div>
                         <div class="d-grid gap-2">
-                            <a href="/kelolapodcast/list-episode" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#episodesModal">View Episodes</a>
-                            <a href="/kelolapodcast/create-episode" class="btn btn-primary">Add Episode</a>
+                            <a href="/kelolapodcast/list-episode/{{ podcast.id_konten }}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#episodesModal">View Episodes</a>
+                            <a href="/kelolapodcast/create-episode/{{ podcast.id_konten }}" class="btn btn-primary">Add Episode</a>
                             <button class="btn btn-danger">Delete Podcast</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body d-flex justify-content-between">
-                        <div>
-                            <h5 class="card-title">Podcast B</h5>
-                            <p class="card-text">Number of Episodes: X</p>
-                            <p class="card-text">Total Duration: XX:XX:XX</p>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <a href="/kelolapodcast/list-episode" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#episodesModal">View Episodes</a>
-                            <a href="/kelolapodcast/create-episode" class="btn btn-primary">Add Episode</a>
-                            <button class="btn btn-danger">Delete Podcast</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- untuk tambahkan card lain -->
+            {% endfor %}
         </div>
     </div>
 </body>

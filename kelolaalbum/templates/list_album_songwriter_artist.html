@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIST ALBUM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-blue-bg {
+            background-color: #007bff !important;
+            color: #fff;
+        }
+        .custom-yellow-bg {
+            background-color: #ecdaab !important;
+            color: #000000;
+        }
+        .custom-btn {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .custom-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        table {
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">marmut-b11</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Playlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/main/kelolaalbum/create-album/">Kelola Album</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Songs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Langganan Paket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  
+    <h1 style="margin: 20px 0px 50px 0px;">ALBUMS</h1>
+    <br>
+    <br>
+    {% if albums %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Judul Album</th>
+                  <th>Label</th>
+                  <th>Jumlah lagu</th>
+                  <th>Total Durasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for album in albums %}
+                  <tr>
+                    <td>{{ album.judul }}</td>
+                    <td>{{ album.label }}</td>
+                    <td>{{ album.jumlah_lagu }}</td>
+                    <td>{{ album.total_durasi }}</td>
+                    <td>
+                      <a href="/main/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">List Lagu</a>
+                      <a href="/main/kelolaplaylist/edit/{{ playlist.id }}" class="btn btn-warning btn-sm">Tambah Lagu</a>
+                      <a href="/main/kelolaplaylist/delete/{{ playlist.id }}" class="btn btn-danger btn-sm">Hapus</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div>Anda Belum Memiliki Album</div>
+    {% endif %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

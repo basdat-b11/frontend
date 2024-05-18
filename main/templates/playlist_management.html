@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      /* Custom CSS */
+      .profile-info {
+          margin-bottom: 20px;
+      }
+
+      .profile-info label {
+          font-weight: bold;
+      }
+
+      .playlist-item {
+          cursor: pointer;
+      }
+
+      .playlist-item:hover {
+          text-decoration: underline;
+      }
+
+      body {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 5px 10px;
+      }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">marmut-b11</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="form-inline my-2 my-lg-0 mx-auto">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Chart</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Kelola Playlist</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Langganan Paket</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Logout</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+    <title>User Playlist</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center; /* Teks di tabel di tengah */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-buttons {
+            text-align: center;
+        }
+        .action-buttons button {
+            margin-right: 5px;
+        }
+        .action-buttons button:nth-child(2) {
+            margin-bottom: 5px;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0px 30px 0px /* Teks "User Playlist" di tengah */
+        }
+    </style>
+
+    <h1>USER PLAYLIST</h1>
+    <table>
+        <tr>
+            <th>Judul</th>
+            <th>Jumlah Lagu</th>
+            <th>Total Durasi</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>Playlist1</td>
+            <td>0</td>
+            <td>0 menit</td>
+            <td class="action-buttons">
+                <button style="margin-bottom: 5px;">Detail</button><br>
+                <button style="margin-bottom: 5px;">Ubah</button><br>
+                <button>Hapus</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Playlist2</td>
+            <td>2</td>
+            <td>4 menit</td>
+            <td class="action-buttons">
+                <button style="margin-bottom: 5px;">Detail</button><br>
+                <button style="margin-bottom: 5px;">Ubah</button><br>
+                <button >Hapus</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Playlist3</td>
+            <td>5</td>
+            <td>10 menit</td>
+            <td class="action-buttons">
+                <button style="margin-bottom: 5px;">Detail</button><br>
+                <button style="margin-bottom: 5px;">Ubah</button><br>
+                <button style="margin-bottom: 5px;">Hapus</button>
+            </td>
+        </tr>
+    </table>
+    <a href="../pages/add_playlist.html"><button style="margin: 15px 0px 15px 0px;">Tambah Playlist</button></a>
+</body>
+</html>

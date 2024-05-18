@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcaster Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .profile-info label {
+            font-weight: bold;
+        }
+
+        .playlist-item {
+            cursor: pointer;
+        }
+
+        .playlist-item:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">marmut-b11</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Playlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Langganan Paket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kelola Podcast</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-center mb-4">
+                    <h2>Podcaster Profile</h2>
+                </div>
+                <div class="profile-info">
+                    <label>Nama:</label>
+                    <p>Asep Surasep</p>
+                </div>
+                <div class="profile-info">
+                    <label>Email:</label>
+                    <p>surasep@gmail.com</p>
+                </div>
+                <div class="profile-info">
+                    <label>Kota Asal:</label>
+                    <p>Jakarta</p>
+                </div>
+                <div class="profile-info">
+                    <label>Gender:</label>
+                    <p>Male</p>
+                </div>
+                <div class="profile-info">
+                    <label>Tempat Lahir:</label>
+                    <p>Bandung</p>
+                </div>
+                <div class="profile-info">
+                    <label>Tanggal Lahir:</label>
+                    <p>1990-01-01</p>
+                </div>
+                <div class="profile-info">
+                    <label>Role:</label>
+                    <p>Podcaster</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center mb-4">
+                    <h2>Daftar Podcast Anda</h2>
+                </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item podcast-item">Podcast 1</a>
+                    <a href="#" class="list-group-item podcast-item">Podcast 2</a>
+                    <a href="#" class="list-group-item podcast-item">Podcast 3</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
