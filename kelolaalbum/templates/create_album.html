@@ -52,7 +52,7 @@
                     <a class="nav-link" href="#">Kelola Playlist</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/main/kelolaalbum/create-album/">Kelola Album</a>
+                    <a class="nav-link" href="kelolaalbum/create-album/">Kelola Album</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Kelola Songs</a>
@@ -72,7 +72,7 @@
         </div>
         <div class="card mb-5">
             <div class="card-body">
-                <form action="/main/kelolaalbum/create-album/" method="post">
+                <form action="/kelolaalbum/create-album-artist/" method="post">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="judul_album">Album Name</label>
@@ -101,13 +101,23 @@
                         {% endfor %}
                     </div><br><br>
             
+                    {% if "Artist" in roles %}
                     <label for="songwriter">Songwriter:</label>
-                    <select id="songwriter" name="songwriter" required>
+                    <select id="songwriter" name="songwriter" multiple required>
                         {% for songwriter in songwriters %}
                             <option value="{{ songwriter.email_akun }}">{{ songwriter }}</option>
                         {% endfor %}
                     </select><br><br>
-            
+                    {% elif "Songwriter" in roles %}
+                    <label for="artist">artist:</label>
+                    <select id="artist" name="artist" required>
+                        {% for artist in artists %}
+                            <option value="{{ artist.email_akun }}">{{ artist }}</option>
+                        {% endfor %}
+                    </select><br><br>
+                    {% elif "Songwriter" in roles and "Artist" in roles %}
+                    
+                    {% endif %}
                     <input type="submit" value="Create Song">
                 </form>
             </div>

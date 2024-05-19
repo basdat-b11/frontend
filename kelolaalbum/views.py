@@ -11,10 +11,11 @@ from django.http import HttpResponseRedirect
 from utils.query import connectdb
 from django.views.decorators.csrf import csrf_exempt
 
-email = 'jennifersutton@gmail.com'
+
 
 @connectdb
 def list_album(cursor: CursorWrapper, request):
+    email = request.session["email"]
     # try:
     #     email = request.session.get('email')
     # except:
@@ -52,6 +53,7 @@ def list_album(cursor: CursorWrapper, request):
 @connectdb
 @csrf_exempt
 def create_album(cursor: CursorWrapper, request):
+    email = request.session["email"]
     if request.method == 'POST':
         judul_album = request.POST['judul_album']
         id_label = request.POST['label']
@@ -76,7 +78,7 @@ def create_album(cursor: CursorWrapper, request):
         
         query3 = """
                 SET search_path to marmut;
-                select id from artist where email_akun='davidmoore@yahoo.com'
+                select id from artist where email_akun= %s
                 """
 
         query2 =    """
@@ -85,13 +87,13 @@ def create_album(cursor: CursorWrapper, request):
                 VALUES (%s, %s, %s, %s, %s);
                     """
         with connection.cursor() as cursor:
-            cursor.execute(query3)
+            cursor.execute(query3, email)
             id_artist = cursor.fetchall()
             cursor.execute(query, [id, judul, 2024, durasi])
             cursor.execute(query2, [id, id_artist[0], id_album, 0, 0])
 
         
-        return redirect('/main/kelolaalbum/list-album/')
+        return redirect('/kelolaalbum/list-album/')
 
     # Fetch labels for dropdown
     cursor.execute("Set search_path to marmut;")
@@ -107,14 +109,15 @@ def create_album(cursor: CursorWrapper, request):
         genres = cursor.fetchall()
         cursor.execute("SET search_path to marmut; SELECT email_akun FROM songwriter;")
         songwriters = cursor.fetchall()
-    return render(request, 'create_album.html', {'labels': labels, 'songwriters' : songwriters, 'genres': genres})
+        cursor.execute("SET search_path to marmut; SELECT email_akun FROM songwriter;")
+        artists = cursor.fetchall()
+    roles = get_role_pengguna(email)
+    print (email)
+    print (roles)
+    return render(request, 'create_album.html', {'labels': labels, 'songwriters' : songwriters, 'genres': genres, 'artists': artists, 'roles': roles})
 
 
 def list_song_album(request, album_id):
-    # try:
-    #     email = request.session.get('email')
-    # except:
-    #     return HttpResponseRedirect(reverse("authentication:login_user"))
     with connection.cursor() as cursor:
         cursor.execute("Set search_path to marmut;")
         query = ("""
@@ -155,7 +158,7 @@ def delete_album(request, album_id):
     with connection.cursor() as cursor:
             cursor.execute(query, [album_id])
 
-    return redirect('/main/kelolaalbum/list-album/')
+    return redirect('/kelolaalbum/list-album/')
 
 def delete_song(request, song_id,):
     query = """
@@ -167,67 +170,26 @@ def delete_song(request, song_id,):
     with connection.cursor() as cursor:
             cursor.execute(query, [song_id])
 
-    return redirect('/main/kelolaalbum/list-album/')
-
-@connectdb
-@csrf_exempt
-def create_album(cursor: CursorWrapper, request):
-    if request.method == 'POST':
-        judul_album = request.POST['judul_album']
-        id_label = request.POST['label']
-        selected_songs = request.POST.getlist('songs')  # Get the selected songs
-        id_album = uuid.uuid4()
-        judul = request.POST.get('judul')
-        durasi = int(request.POST.get('durasi'))
-        id = str(uuid.uuid4())
-        
-        cursor.execute("""
-                        SET search_path to marmut;
-                        INSERT INTO album (id, judul, jumlah_lagu, total_durasi, id_label)
-                        VALUES (%s, %s, %s, %s, %s);
-                        """, [id_album, judul_album, len(selected_songs), 0, id_label])
-        
-        # Insert songs into the album        
-        query = """
-                SET search_path to marmut;
-                INSERT INTO KONTEN (id, judul, tanggal_rilis, tahun, durasi)
-                VALUES (%s, %s, CURRENT_TIMESTAMP, %s, %s);
-                """
-        
-        query3 = """
-                SET search_path to marmut;
-                select id from artist where email_akun='davidmoore@yahoo.com'
-                """
-
-        query2 =    """
-                SET search_path to marmut;
-                INSERT INTO SONG (id_konten, id_artist, id_album, total_play, total_download)
-                VALUES (%s, %s, %s, %s, %s);
-                    """
-        with connection.cursor() as cursor:
-            cursor.execute(query3)
-            id_artist = cursor.fetchall()
-            cursor.execute(query, [id, judul, 2024, durasi])
-            cursor.execute(query2, [id, id_artist[0], id_album, 0, 0])
-
-        
-        return redirect('/main/kelolaalbum/list-album/')
-
-    # Fetch labels for dropdown
-    cursor.execute("Set search_path to marmut;")
-    cursor.execute("SELECT id, nama FROM label")
-    labels = cursor.fetchall()
-
-    with connection.cursor() as cursor:
-        cursor.execute("""
-                       SET search_path to marmut; 
-                       SELECT distinct genre 
-                       FROM genre;
-                       """)
-        genres = cursor.fetchall()
-        cursor.execute("SET search_path to marmut; SELECT email_akun FROM artist;")
-        artists = cursor.fetchall()
-    return render(request, 'create_album_songwriter.html', {'labels': labels, 'artists' : artists, 'genres': genres})
+    return redirect('/kelolaalbum/list-album/')
 
 
-
+from django.db import connection as conn
+def get_role_pengguna(email: str) -> list:
+    roles = []
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT * FROM ARTIST WHERE email_akun = '{email}'")
+        artist = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM SONGWRITER WHERE email_akun = '{email}'")
+        songwriter = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM PODCASTER WHERE email = '{email}'")
+        podcaster = cursor.fetchall()
+        cursor.execute("set search_path to public")
+    if len(artist) > 0:
+        roles.append("Artist")
+    if len(songwriter) > 0:
+        roles.append("Songwriter")
+    if len(podcaster) > 0:
+        roles.append("Podcaster")
+    
+    return roles

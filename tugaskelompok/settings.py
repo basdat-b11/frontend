@@ -51,8 +51,6 @@ INSTALLED_APPS = [
     'playpodcast',
     'melihatchart',
     'kelolapodcast',
-
-    'kelolasong',
     'cekroyalti',
 ]
 
