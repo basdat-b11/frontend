@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db import connection
 
 
-def podcast_detail(request):
+def podcast_detail(request, podcast_id):
     query = """
             SET search_path to marmut;
             SELECT p.id_konten AS podcast_id, k.judul AS podcast_title, 
@@ -14,11 +14,12 @@ def podcast_detail(request):
             LEFT JOIN GENRE g ON k.id = g.id_konten
             LEFT JOIN PODCASTER po ON p.email_podcaster = po.email
             LEFT JOIN AKUN a ON po.email = a.email
+            WHERE p.id_konten = %s
             ORDER BY k.judul, e.tanggal_rilis;
             """
     
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, [podcast_id])
         rows = cursor.fetchall()
 
     podcasts_dict = {}

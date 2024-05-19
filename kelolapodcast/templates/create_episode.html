@@ -52,6 +52,7 @@
         </div>
     </nav>
 
+    {% if "Podcaster" in roles %}
     <div class="container">
         <h1 class="mb-4">Create Episode</h1>
         <form action="{% url 'kelolapodcast:create_episode' podcast_id %}" method="POST">
@@ -71,5 +72,10 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    {% else %}
+    <div class="d-flex justify-content-center">
+        <p>Kamu tidak bisa mengakses page ini</p>
+    </div>
+    {% endif %}
 </body>
 </html>
