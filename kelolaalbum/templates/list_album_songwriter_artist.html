@@ -31,7 +31,7 @@
 <body>
     {% include 'navbar.html' %}
   
-    <h1 style="margin: 20px 0px 50px 0px;">ALBUMS</h1>
+    <h1 style="margin: 20px 0px 50px 0px; text-align: center;">ALBUMS</h1>
     <br>
     <br>
     {% if albums %}
@@ -40,6 +40,14 @@
           <div class="col-md-8 offset-md-2">
             <table class="table table-bordered">
               <thead class="thead-dark">
+                {% if role == "label" %}
+                <tr>
+                  <th>Judul Album</th>
+                  <th>Jumlah lagu</th>
+                  <th>Total Durasi</th>
+                  <th>Action</th>
+                </tr>
+                {% else %}
                 <tr>
                   <th>Judul Album</th>
                   <th>Label</th>
@@ -47,20 +55,34 @@
                   <th>Total Durasi</th>
                   <th>Action</th>
                 </tr>
+                {% endif %}
               </thead>
               <tbody>
                 {% for album in albums %}
                   <tr>
+                    {% if role == "label" %}
+                    <td>{{ album.judul }}</td>
+                    <td>{{ album.jumlah_lagu }}</td>
+                    <td>{{ album.total_durasi }}</td>
+                    {% else %}
                     <td>{{ album.judul }}</td>
                     <td>{{ album.label }}</td>
                     <td>{{ album.jumlah_lagu }}</td>
                     <td>{{ album.total_durasi }}</td>
+                    {% endif %}
+                    {% if role == "label" %}
+                    <td>
+                      <a href="/kelolaalbum/list-album-song/{{ album.id }}" class="btn btn-primary btn-sm">List Lagu</a>
+                      <a href="/kelolaalbum/delete-album/{{ album.id }}" class="btn btn-danger btn-sm">Hapus</a>
+                    </td>
+                    {% else %}
                     <td>
                       <a href="/kelolaalbum/list-album-song/{{ album.id }}" class="btn btn-primary btn-sm">List Lagu</a>
                       <a href="/kelolasong/createsong/{{ album.id }}" class="btn btn-warning btn-sm">Tambah Lagu</a>
                       <a href="/kelolaalbum/delete-album/{{ album.id }}" class="btn btn-danger btn-sm">Hapus</a>
                     </td>
                   </tr>
+                  {% endif %}
                 {% endfor %}
               </tbody>
             </table>
