@@ -91,12 +91,12 @@
                     {% for song in songs %}
                       <tr>
                         <td>{{ song.judul }}</td>
-                        <td>{{ song.durasi }} menit</td>
+                        <td>{{ song.durasi }}</td>
                         <td>{{ song.total_play }}</td>
                         <td>{{ song.total_download }}</td>
                         <td>
-                          <a href="/main/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">Lihat Detail</a>
-                          <a href="/main/kelolaalbum/delete-song/{{ song.id }}" class="btn btn-danger btn-sm">Hapus</a>
+                          <a href="/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">Lihat Detail</a>
+                          <a href="/kelolaalbum/delete-song/{{ song.id }}" class="btn btn-danger btn-sm">Hapus</a>
                         </td>
                       </tr>
                     {% endfor %}
