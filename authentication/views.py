@@ -67,7 +67,10 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
-        cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        if (role == "pengguna") :
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else:
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
         user_data = cursor.fetchone()
 
         if not user_data:

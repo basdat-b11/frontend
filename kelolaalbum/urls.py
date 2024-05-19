@@ -5,7 +5,8 @@ app_name = 'daftar_album_song'
 
 urlpatterns = [
     path('list-album/', list_album, name='list_album'),
-    path('create-album/', create_album, name='create-album/'),
+    path('create-album-artist/', create_album, name='create-album-artist/'),
+    path('create-album-songwriter/', create_album, name='create-album-songwriter/'),
     path('list-album-song/<str:album_id>', list_song_album, name='list_album_song'),
     path('delete-album/<str:album_id>', delete_album, name='delete_album'),
     path('delete-song/<str:song_id>', delete_song, name='delete_song'),   

@@ -84,40 +84,37 @@
     </nav>
     <br>
 <h2>List Royalti</h2>
-<div>
-<table class="table">
-    <tr>
-        <th colspan="5" class="custom-blue-bg">LIST ROYALTI</th>
-    </tr>
-    <tr>
-        <th class="custom-yellow-bg">Judul Lagu</th>
-        <th class="custom-yellow-bg">Judul Album</th>
-        <th class="custom-yellow-bg">Total Play</th>
-        <th class="custom-yellow-bg">Total Download</th>
-        <th class="custom-yellow-bg">Total Royalti Didapat</th>
-    </tr>
-    <tr>
-        <td>Song 1</td>
-        <td>Album 1</td>
-        <td>100</td>
-        <td>50</td>
-        <td>Rp 450000</td>
-    </tr>
-    <tr>
-        <td>Song 2</td>
-        <td>Album 2</td>
-        <td>200</td>
-        <td>75</td>
-        <td>Rp420000</td>
-    </tr>
-    <tr>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-    </tr>
-</table>
-</div>
+{% if royaltis %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Judul Lagu</th>
+                  <th>Judul Album</th>
+                  <th>Total Play</th>
+                  <th>Total Download</th>
+                  <th>Total Royalti yang Didapat</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for royalti in royaltis %}
+                  <tr>
+                    <td>{{ royalti.judul }}</td>
+                    <td>{{ royalti.judul_album }}</td>
+                    <td>{{ royatli.total_play }}</td>
+                    <td>{{ royalti.total_download }}</td>
+                    <td>{{ royalti.total_royalti }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div>Anda Belum Memiliki Album</div>
+    {% endif %}
 </body>
 </html>

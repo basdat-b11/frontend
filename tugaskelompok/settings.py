@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'melihatchart',
     'kelolapodcast',
     'kelolasong',
+    'cekroyalti',
 ]
 
 MIDDLEWARE = [

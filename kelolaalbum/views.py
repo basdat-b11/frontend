@@ -169,5 +169,65 @@ def delete_song(request, song_id,):
 
     return redirect('/main/kelolaalbum/list-album/')
 
+@connectdb
+@csrf_exempt
+def create_album(cursor: CursorWrapper, request):
+    if request.method == 'POST':
+        judul_album = request.POST['judul_album']
+        id_label = request.POST['label']
+        selected_songs = request.POST.getlist('songs')  # Get the selected songs
+        id_album = uuid.uuid4()
+        judul = request.POST.get('judul')
+        durasi = int(request.POST.get('durasi'))
+        id = str(uuid.uuid4())
+        
+        cursor.execute("""
+                        SET search_path to marmut;
+                        INSERT INTO album (id, judul, jumlah_lagu, total_durasi, id_label)
+                        VALUES (%s, %s, %s, %s, %s);
+                        """, [id_album, judul_album, len(selected_songs), 0, id_label])
+        
+        # Insert songs into the album        
+        query = """
+                SET search_path to marmut;
+                INSERT INTO KONTEN (id, judul, tanggal_rilis, tahun, durasi)
+                VALUES (%s, %s, CURRENT_TIMESTAMP, %s, %s);
+                """
+        
+        query3 = """
+                SET search_path to marmut;
+                select id from artist where email_akun='davidmoore@yahoo.com'
+                """
+
+        query2 =    """
+                SET search_path to marmut;
+                INSERT INTO SONG (id_konten, id_artist, id_album, total_play, total_download)
+                VALUES (%s, %s, %s, %s, %s);
+                    """
+        with connection.cursor() as cursor:
+            cursor.execute(query3)
+            id_artist = cursor.fetchall()
+            cursor.execute(query, [id, judul, 2024, durasi])
+            cursor.execute(query2, [id, id_artist[0], id_album, 0, 0])
+
+        
+        return redirect('/main/kelolaalbum/list-album/')
+
+    # Fetch labels for dropdown
+    cursor.execute("Set search_path to marmut;")
+    cursor.execute("SELECT id, nama FROM label")
+    labels = cursor.fetchall()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+                       SET search_path to marmut; 
+                       SELECT distinct genre 
+                       FROM genre;
+                       """)
+        genres = cursor.fetchall()
+        cursor.execute("SET search_path to marmut; SELECT email_akun FROM artist;")
+        artists = cursor.fetchall()
+    return render(request, 'create_album_songwriter.html', {'labels': labels, 'artists' : artists, 'genres': genres})
+
 
 

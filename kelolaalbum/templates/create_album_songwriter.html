@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIST ALBUM</title>
+    <title>Create Album</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .custom-blue-bg {
@@ -66,46 +66,53 @@
             </ul>
         </div>
     </nav>
-  
-    <h1 style="margin: 20px 0px 50px 0px;">ALBUMS</h1>
-    <br>
-    <br>
-    {% if albums %}
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 offset-md-2">
-            <table class="table table-bordered">
-              <thead class="thead-dark">
-                <tr>
-                  <th>Judul Album</th>
-                  <th>Label</th>
-                  <th>Jumlah lagu</th>
-                  <th>Total Durasi</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for album in albums %}
-                  <tr>
-                    <td>{{ album.judul }}</td>
-                    <td>{{ album.label }}</td>
-                    <td>{{ album.jumlah_lagu }}</td>
-                    <td>{{ album.total_durasi }}</td>
-                    <td>
-                      <a href="/kelolaalbum/list-album-song/{{ album.id }}" class="btn btn-primary btn-sm">List Lagu</a>
-                      <a href="/kelolasong/createsong/{{ album.id }}" class="btn btn-warning btn-sm">Tambah Lagu</a>
-                      <a href="/kelolaalbum/delete-album/{{ album.id }}" class="btn btn-danger btn-sm">Hapus</a>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4">Create New Album</h1>
         </div>
-      </div>
-    {% else %}
-      <div>Anda Belum Memiliki Album</div>
-    {% endif %}
+        <div class="card mb-5">
+            <div class="card-body">
+                <form action="/main/kelolaalbum/create-album/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="judul_album">Album Name</label>
+                        <input type="text" class="form-control" id="judul_album" name="judul_album" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Label</label>
+                        <select class="form-control" id="label" name="label" required>
+                            {% for label in labels %}
+                            <option value="{{ label.0 }}">{{ label.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <label for="judul">Title:</label>
+                    <input type="text" id="judul" name="judul" required><br><br>
+            
+                    <label for="durasi">Duration (menit):</label>
+                    <input type="number" id="durasi" name="durasi" required><br><br>
+            
+                    <label for="genre">Genre:</label>
+                    <div class="checkbox-group">
+                        {% for genre in genres %}
+                            <label>
+                                <input type="checkbox" name="genre" value="{{ genre.genre }}"> {{ genre }}
+                            </label>
+                        {% endfor %}
+                    </div><br><br>
+            
+                    <label for="artist">artist:</label>
+                    <select id="artist" name="artist" required>
+                        {% for artist in artists %}
+                            <option value="{{ artist.email_akun }}">{{ artist }}</option>
+                        {% endfor %}
+                    </select><br><br>
+            
+                    <input type="submit" value="Create Song">
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
