@@ -12,7 +12,6 @@ from utils.query import connectdb
 from django.views.decorators.csrf import csrf_exempt
 
 
-
 @connectdb
 def list_album(cursor: CursorWrapper, request):
     email = request.session["email"]
@@ -48,7 +47,35 @@ def list_album(cursor: CursorWrapper, request):
             "total_durasi": durasi,
             "id":row[4]
         })
-    return render(request, 'list_album_songwriter_artist.html', {'albums' : albums})
+    email = request.session["email"]
+    role = request.session["role"]
+
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        if (role == "pengguna") :
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else:
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
+        user_data = cursor.fetchone()
+
+        if not user_data:
+            return redirect('authentication:login')
+
+        cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+        premium = cursor.fetchone()
+        if premium:
+            is_premium = True
+        else:
+            is_premium = False
+
+        cursor.execute("set search_path to public")
+
+    roles = get_role_pengguna(email)
+    return render(request, 'list_album_songwriter_artist.html', {'albums' : albums, 'is_logged_in': True,
+                                                                'user': user_data,
+                                                                'role': role,
+                                                                'roles': roles,
+                                                                'is_premium': is_premium})
 
 @connectdb
 @csrf_exempt
@@ -111,10 +138,38 @@ def create_album(cursor: CursorWrapper, request):
         songwriters = cursor.fetchall()
         cursor.execute("SET search_path to marmut; SELECT email_akun FROM songwriter;")
         artists = cursor.fetchall()
+        
+    email = request.session["email"]
+    role = request.session["role"]
+
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        if (role == "pengguna") :
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else:
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
+        user_data = cursor.fetchone()
+        if not user_data:
+            return redirect('authentication:login')
+        cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+        premium = cursor.fetchone()
+        if premium:
+            is_premium = True
+        else:
+            is_premium = False
+        cursor.execute("set search_path to public")
+
     roles = get_role_pengguna(email)
-    print (email)
-    print (roles)
-    return render(request, 'create_album.html', {'labels': labels, 'songwriters' : songwriters, 'genres': genres, 'artists': artists, 'roles': roles})
+    return render(request, 'create_album.html', {'labels': labels, 
+                                                'songwriters' : songwriters,
+                                                'genres': genres, 
+                                                'artists': artists, 
+                                                'roles': roles,
+                                                'is_logged_in': True,
+                                                'user': user_data,
+                                                'role': role,
+                                                'roles': roles,
+                                                'is_premium': is_premium})
 
 
 def list_song_album(request, album_id):
@@ -146,7 +201,37 @@ def list_song_album(request, album_id):
                 "total_download": row[3],
                 "id": row[4]
             })
-    return render(request, 'list_song.html', {'songs' : songs})
+    email = request.session["email"]
+    role = request.session["role"]
+
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        if (role == "pengguna") :
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else:
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
+        user_data = cursor.fetchone()
+
+        if not user_data:
+            return redirect('authentication:login')
+
+        cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+        premium = cursor.fetchone()
+        if premium:
+            is_premium = True
+        else:
+            is_premium = False
+
+        cursor.execute("set search_path to public")
+
+    roles = get_role_pengguna(email)
+    return render(request, 'list_song.html', {'songs' : songs, 
+                                              'roles': roles,
+                                                'is_logged_in': True,
+                                                'user': user_data,
+                                                'role': role,
+                                                'roles': roles,
+                                                'is_premium': is_premium})
 
 def delete_album(request, album_id):
     query = """
