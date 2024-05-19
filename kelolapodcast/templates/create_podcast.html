@@ -54,21 +54,22 @@
 
     <div class="container">
         <h1 class="mb-4">Create Podcast</h1>
-        <form action="list-podcast" method="POST">
+        <form action="{% url 'kelolapodcast:create_podcast' %}" method="POST">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="podcastTitle" class="form-label">Podcast Title</label>
-                <input type="text" class="form-control" id="podcastTitle" placeholder="Enter podcast title">
+                <label for="podcastTitle" class="form-label">Podcast Title: </label>
+                <input type="text" class="form-control" id="podcastTitle" name="judul" placeholder="Enter podcast title">
             </div>
             <div class="mb-3">
-                <label for="podcastGenre" class="form-label">Genre</label>
-                <select class="form-select" id="podcastGenre" multiple>
-                    <option selected>Select genre</option>
-                    <option value="1">Comedy</option>
-                    <option value="2">Technology</option>
-                    <option value="3">Education</option>
-                    <!-- Untuk tambahkan genre-->
-                </select>
+                <label class="form-label">Genres:</label>
+                <div>
+                    {% for genre in genres %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="genre{{ forloop.counter }}" name="genres" value="{{ genre }}">
+                            <label class="form-check-label" for="genre{{ forloop.counter }}">{{ genre }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
