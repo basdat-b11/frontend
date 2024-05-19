@@ -47,9 +47,11 @@ INSTALLED_APPS = [
     'kelolaplaylist',
     'playlist',
     'kelolaalbum',
+    'kelolasong',
     'playpodcast',
     'melihatchart',
     'kelolapodcast',
+
     'kelolasong',
     'cekroyalti',
 ]

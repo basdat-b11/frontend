@@ -1,106 +1,136 @@
-
-
-{% load static %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Register Pengguna</title>
-    <style>
-        /* CSS styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-        }
-        h2 {
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"],
-        input[type="password"],
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Pengguna</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-header {
+      background-color: #007bff;
+      color: #fff;
+      border-bottom: none;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      padding: 1rem;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .form-group label {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>FORM REGISTRASI - Pengguna</h2>
-        {% csrf_token %}
-        <form method="POST">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">marmut-b11</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header text-center">
+          Register Pengguna
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email" required>
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required placeholder="Enter email">
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required placeholder="Enter password">
             </div>
             <div class="form-group">
-                <label for="nama">Nama:</label>
-                <input type="text" id="nama" name="nama" required>
+              <label for="nama">Nama</label>
+              <input type="text" class="form-control" id="nama" name="nama" required placeholder="Enter name">
             </div>
             <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                </select>
+              <label for="gender">Gender</label>
+              <select class="form-control" id="gender" name="gender" required>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+              </select>
             </div>
             <div class="form-group">
-                <label for="tempat_lahir">Tempat lahir:</label>
-                <input type="text" id="tempat_lahir" name="tempat_lahir" required>
+              <label for="tempat_lahir">Tempat Lahir</label>
+              <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" required placeholder="Enter place of birth">
             </div>
             <div class="form-group">
-                <label for="tanggal_lahir">Tanggal lahir:</label>
-                <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
+              <label for="tanggal_lahir">Tanggal Lahir</label>
+              <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
             </div>
             <div class="form-group">
-                <label for="kota_asal">Kota asal:</label>
-                <input type="text" id="kota_asal" name="kota_asal" required>
+              <label for="kota_asal">Kota Asal</label>
+              <input type="text" class="form-control" id="kota_asal" name="kota_asal" required placeholder="Enter city">
             </div>
             <div class="form-group">
-                <label>Role:</label><br>
-                <input type="checkbox" id="podcaster" name="role" value="Podcaster">
-                <label for="podcaster">Podcaster</label><br>
-                <input type="checkbox" id="artist" name="role" value="Artist">
-                <label for="artist">Artist</label><br>
-                <input type="checkbox" id="songwriter" name="role" value="Songwriter">
-                <label for="songwriter">Songwriter</label><br>
-            </div>                      
-            <button type="submit" class="btn">Register</button>
-        </form>
+              <label>Role</label><br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="podcaster" name="role" value="Podcaster">
+                <label class="form-check-label" for="podcaster">Podcaster</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="artist" name="role" value="Artist">
+                <label class="form-check-label" for="artist">Artist</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="songwriter" name="role" value="Songwriter">
+                <label class="form-check-label" for="songwriter">Songwriter</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-{% endblock %}
+</html>
