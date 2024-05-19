@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('main.urls')),
     path('', include('authentication.urls')),
-
+    path('playpodcast/',include("playpodcast.urls")),
+    path('melihatchart/',include("melihatchart.urls")),
+    path('kelolapodcast/',include("kelolapodcast.urls")),
 ]
