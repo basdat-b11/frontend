@@ -44,7 +44,7 @@
                 <table class="table table-bordered">
                   <thead class="thead-dark">
                     <tr>
-                        <th>Judul Album</th>
+                        <th>Judul Lagu</th>
                         <th>Total Durasi</th>
                         <th>Total Play</th>
                         <th>Total Download</th>
@@ -59,7 +59,7 @@
                         <td>{{ song.total_play }}</td>
                         <td>{{ song.total_download }}</td>
                         <td>
-                          <a href="/playlist/{{ playlist.id }}" class="btn btn-primary btn-sm">Lihat Detail</a>
+                          <a href="/main/songdetail/view/{{ song.id }}" class="btn btn-primary btn-sm">Lihat Detail</a>
                           <a href="/kelolaalbum/delete-song/{{ song.id }}" class="btn btn-danger btn-sm">Hapus</a>
                         </td>
                       </tr>

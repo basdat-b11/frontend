@@ -110,6 +110,7 @@ def song_detail(request):
 def song_detail_by_id(request, id_konten):
     email_pembuat = request.session["email"]
     judul_lagu = ''
+    is_premium = False
 
     with connection.cursor() as cursor:
         cursor.execute("Set search_path to marmut;")
@@ -120,6 +121,15 @@ def song_detail_by_id(request, id_konten):
                         """, [id_konten])
         result = cursor.fetchall()
         judul_lagu = result[0][0]
+
+        cursor.execute("""
+                        SELECT email
+                        FROM premium
+                        WHERE email = %s;
+                        """, [email_pembuat])
+        result = cursor.fetchall()
+        if len(result) > 0:
+            is_premium = True
 
     genres = []
     artist = ''
@@ -204,7 +214,7 @@ def song_detail_by_id(request, id_konten):
         # 'is_premium': request.user.is_authenticated and request.user.premium,
         # 'email_pembuat': request.user.email,
         'email_pembuat': email_pembuat,
-        'is_premium': True,
+        'is_premium': is_premium,
         'song_id': song_id,
         'judul_lagu': judul_lagu,
         'genres': genres,
