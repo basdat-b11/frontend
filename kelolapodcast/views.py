@@ -11,6 +11,7 @@ from django.urls import reverse
 @csrf_exempt
 def create_podcast(request):
     email_pembuat = request.session["email"]
+    roles = get_role_pengguna(email_pembuat)
     if request.method == 'POST':
         title = request.POST.get('judul')
         genres = request.POST.getlist('genres')
@@ -52,7 +53,8 @@ def create_podcast(request):
         genres = [row[0] for row in cursor.fetchall()]
 
     context = {
-        'genres': genres
+        'genres': genres,
+        'roles': roles
     }
 
     return render(request, 'create_podcast.html', context)
@@ -163,6 +165,8 @@ def format_durasi(minutes):
 
 @csrf_exempt
 def create_episode(request, podcast_id):
+    email_pembuat = request.session["email"]
+    roles = get_role_pengguna(email_pembuat)
     if request.method == 'POST':
         judul = request.POST.get('judul')
         deskripsi = request.POST.get('deskripsi')
@@ -188,7 +192,8 @@ def create_episode(request, podcast_id):
         return redirect('/kelolapodcast') 
 
     context = {
-        'podcast_id': podcast_id
+        'podcast_id': podcast_id,
+        'roles': roles
     }
 
     return render(request, 'create_episode.html', context)
@@ -215,6 +220,8 @@ def delete_episode(request, id_episode):
     return redirect(reverse('kelolapodcast:list_episode', args=[podcast_id]))
 
 def list_episode(request, podcast_id):
+    email_pembuat = request.session["email"]
+    roles = get_role_pengguna(email_pembuat)
     query = """
             SET search_path to marmut;
             SELECT k.judul AS podcast_title, 
@@ -246,7 +253,8 @@ def list_episode(request, podcast_id):
 
     content = {
         "podcast_title": podcast_title,
-        "episodes": episodes
+        "episodes": episodes,
+        'roles': roles
     }
 
     return render(request, 'list_episode.html', content)
