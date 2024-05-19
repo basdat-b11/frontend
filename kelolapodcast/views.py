@@ -5,13 +5,17 @@ import json
 from django.http import JsonResponse
 import uuid
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 
+# email_pembuat = 'mark48@gmail.com'
+@csrf_exempt
 # email_pembuat = 'mark48@gmail.com'
 @csrf_exempt
 def create_podcast(request):
     email_pembuat = request.session["email"]
     roles = get_role_pengguna(email_pembuat)
+    email_pembuat = request.session["email"]
     if request.method == 'POST':
         title = request.POST.get('judul')
         genres = request.POST.getlist('genres')
@@ -79,6 +83,26 @@ def get_role_pengguna(email: str) -> list:
 
     return roles
 
+def get_role_pengguna(email: str) -> list:
+    roles = []
+    with connection.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT * FROM ARTIST WHERE email_akun = '{email}'")
+        artist = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM SONGWRITER WHERE email_akun = '{email}'")
+        songwriter = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM PODCASTER WHERE email = '{email}'")
+        podcaster = cursor.fetchall()
+        cursor.execute("set search_path to public")
+    if len(artist) > 0:
+        roles.append("Artist")
+    if len(songwriter) > 0:
+        roles.append("Songwriter")
+    if len(podcaster) > 0:
+        roles.append("Podcaster")
+
+    return roles
+
 def delete_podcast(request, id_podcast):
     query = """
             SET search_path to marmut;
@@ -92,6 +116,8 @@ def delete_podcast(request, id_podcast):
     return redirect('/kelolapodcast')
 
 def list_podcast(request):
+    email_pembuat = request.session["email"]
+    roles = get_role_pengguna(email_pembuat)
     email_pembuat = request.session["email"]
     roles = get_role_pengguna(email_pembuat)
     query = """
@@ -150,6 +176,10 @@ def list_podcast(request):
         "podcasts": list(podcasts_dict.values()),
         'roles': roles
     }
+    content = {
+        "podcasts": list(podcasts_dict.values()),
+        'roles': roles
+    }
 
     return render(request, 'list_podcast.html', content)
     
@@ -163,6 +193,7 @@ def format_durasi(minutes):
     else:
         return f"{mins} minutes"
 
+@csrf_exempt
 @csrf_exempt
 def create_episode(request, podcast_id):
     email_pembuat = request.session["email"]

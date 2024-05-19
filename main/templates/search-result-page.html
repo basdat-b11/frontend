@@ -54,9 +54,9 @@
               <td>{{ podcast.judul }}</td>
               <td>{{ podcast.podcaster }}</td>
               <td class="d-flex flex-column">
-                <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#lihatModal">
+                <a href="{% url 'playpodcast:podcast_detail' podcast.id %}" class="btn btn-primary mb-2">
                   Lihat
-                </button>
+                </a>
               </td>
           </tr>
           {% endfor %}
