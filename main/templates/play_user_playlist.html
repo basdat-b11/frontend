@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Playlist Detail</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
     table {
       width: 100%;
@@ -32,55 +34,102 @@
   </style>
 </head>
 <body>
-  <h1>USER PLAYLIST DETAIL</h1>
-  <p>Judul: {{ judul }}</p>
-  <p>Pembuat: {{ pembuat }}</p>
-  <p>Jumlah Lagu: {{ jumlah_lagu }}</p>
-  <p>Total Durasi: {{ total_durasi }}</p>
-  <p>Tanggal Dibuat: {{ tanggal_dibuat }}</p>
-  <p>Deskripsi: {{ deskripsi }}</p>
-  <div class="action-buttons">
-    <button>Shuffle Play</button><br>
-    <button>Kembali</button>
-  </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">marmut-b11</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <h1>DAFTAR LAGU</h1>
-  <table>
-    <tr>
-      <th>Judul Lagu</th>
-      <th>Oleh</th>
-      <th>Durasi</th>
-      <th>Actions</th>
-    </tr>
-    {% for song in daftar_lagu %}
-      <tr>
-        <td>{{ song.judul }}</td>
-        <td>{{ song.artist }}</td>
-        <td>{{ song.durasi }}</td>
-        <td class="action-buttons">
-          <button>Lihat</button><br>
-          <button>Play</button><br>
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-  <div id="formContainer" style="display: none; margin: 0 auto; text-align: center;">
-    <form action="/playlist/tambahlagu/{{ id_playlist }}/" method="post" style="margin: 50px 0px 15px 0px">
-      {% csrf_token %}
-      <label for="judul_playlist">Lagu:</label>
-      <select name="judul_playlist" id="judul_playlist">
-        <option value="">Select a lagu</option>
-        {% for lagu in pilihan_lagu %}
-          <option value="{{ lagu.id }}">{{ lagu.judul }}</option>
-        {% endfor %}
-      </select>
-      <input type="submit" value="SUBMIT">
-    </form>
-  </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0 mx-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Chart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kelola Playlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Langganan Paket</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+  <div class="container"></div>
+    <div class="row"></div>
+      <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">USER PLAYLIST DETAIL</h1>
+        <p>Judul: {{ judul }}</p>
+        <p>Pembuat: {{ pembuat }}</p>
+        <p>Jumlah Lagu: {{ jumlah_lagu }}</p>
+        <p>Total Durasi: {{ total_durasi }}</p>
+        <p>Tanggal Dibuat: {{ tanggal_dibuat }}</p>
+        <p>Deskripsi: {{ deskripsi }}</p>
+        <div class="text-center">
+          <button id="shuffle" class="btn btn-primary">Shuffle Play</button>
+          <a href="/main/kelolaplaylist/" class="btn btn-secondary">Kembali</a>
+        </div>
+      </div>
+    </div>
 
-  <center>
-    <button id="showFormButton" style="margin: 0 auto;">Tambah Lagu</button>
-  </center>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h1 class="text-center">DAFTAR LAGU</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Judul Lagu</th>
+              <th>Oleh</th>
+              <th>Durasi</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for song in daftar_lagu %}
+              <tr>
+                <td>{{ song.judul }}</td>
+                <td>{{ song.artist }}</td>
+                <td>{{ song.durasi }}</td>
+                <td class="text-center">
+                  <a href="/main/songdetail/view/{{ song.id }}" class="btn btn-info">Lihat</a>
+                  <a href="/main/songdetail/play2/{{ song.id }}" class="btn btn-primary">Play</a>
+                  <a href="/main/songdetail/delete/{{id_playlist}}/{{ song.id }}" class="btn btn-danger">Hapus</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 offset-md-3"></div>
+        <div id="formContainer" style="display: none; margin: 0 auto; text-align: center;">
+          <form action="/main/playlist/tambahlagu/{{ id_user_playlist }}/" method="post" style="margin: 50px 0px 15px 0px">
+            <label for="id_lagu">Lagu:</label>
+            <select name="id_lagu" id="id_lagu" class="form-control">
+              <option value="">Judul Lagu - Nama Artis</option>
+              {% for lagu in pilihan_lagu %}
+                <option value="{{ lagu.id }}">{{ lagu.judul }} - {{ lagu.artist }}</option>
+              {% endfor %}
+            </select>
+            <input id="addsong"type="button" value="SUBMIT" class="btn btn-primary">
+          </form>
+        </div>
+
+      </div>
+      <div class="text-center">
+        <button id="showFormButton" class="btn btn-primary" style="margin: 0 auto;">Tambah Lagu</button>
+      </div>
+    </div>
+  </div>
 </body>
 
 <script>
@@ -90,12 +139,68 @@
       if (formContainer.style.display === 'none') {
           formContainer.style.display = 'block';
           button.textContent = 'Cancel';  // Change the button text to 'Cancel'
-          document.getElementById('judul_playlist').value = '';  // Clear the value of the 'judul_playlist' input field
+          document.getElementById('id_lagu').value = '';  // Clear the value of the 'id_lagu' input field
           document.getElementById('deskripsi_playlist').value = '';  // Clear the value of the 'deskripsi_playlist' input field
       } else {
           formContainer.style.display = 'none';
           button.textContent = 'Tambah Playlist';  // Change the button text back to 'Tambah Playlist'
       }
+  });
+
+  document.getElementById('addsong').addEventListener('click', function() {
+      var id_user_playlist = '{{ id_user_playlist }}';
+      var song_id = document.getElementById('id_lagu').value;
+
+      if(song_id === '') {
+          alert('Pilih lagu yang ingin ditambahkan ke dalam playlist');
+          return;
+      }
+
+      console.log(id_user_playlist, song_id)
+
+      var api_target = '/main/playlist/tambahlagu/' + id_user_playlist + '/';
+
+      fetch(api_target, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ song_id: song_id, is_api: true })
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+
+      alert('Berhasil menambahkan lagu dengan judul {{ judul }} ke dalam playlist');
+
+      location.reload();
+  });
+
+  document.getElementById('shuffle').addEventListener('click', function() {
+      fetch('/main/playlist/shuffle/song/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+              pembuat: '{{ pembuat }}',
+              id_user_playlist: '{{ id_user_playlist }}',
+          }),
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data)
+          alert('Berhasil shuffle lagu {{ judul_lagu }}');
+          location.reload();
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+
   });
 </script>
 </html>
