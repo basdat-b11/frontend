@@ -15,7 +15,6 @@ from django.urls import reverse
 def create_podcast(request):
     email_pembuat = request.session["email"]
     roles = get_role_pengguna(email_pembuat)
-    email_pembuat = request.session["email"]
     if request.method == 'POST':
         title = request.POST.get('judul')
         genres = request.POST.getlist('genres')
@@ -116,8 +115,6 @@ def delete_podcast(request, id_podcast):
     return redirect('/kelolapodcast')
 
 def list_podcast(request):
-    email_pembuat = request.session["email"]
-    roles = get_role_pengguna(email_pembuat)
     email_pembuat = request.session["email"]
     roles = get_role_pengguna(email_pembuat)
     query = """
