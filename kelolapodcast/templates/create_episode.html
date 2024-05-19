@@ -54,19 +54,19 @@
 
     <div class="container">
         <h1 class="mb-4">Create Episode</h1>
-        <form action="list-episode" method="POST">
+        <form action="{% url 'kelolapodcast:create_episode' podcast_id %}" method="POST">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="episodeTitle" class="form-label">Episode Title</label>
-                <input type="text" class="form-control" id="episodeTitle" placeholder="Enter episode title">
+                <label for="episodeTitle" class="form-label">Episode Title: </label>
+                <input type="text" class="form-control" id="episodeTitle" name="judul" placeholder="Enter episode title">
             </div>
             <div class="mb-3">
-                <label for="episodeDescription" class="form-label">Episode Description</label>
-                <input type="text" class="form-control" id="episodeDescription" placeholder="Enter episode description">
+                <label for="episodeDescription" class="form-label">Episode Description: </label>
+                <input type="text" class="form-control" id="episodeDescription" name="deskripsi" placeholder="Enter episode description">
             </div>
             <div class="mb-3">
                 <label for="episodeDuration" class="form-label">Duration</label>
-                <input type="text" class="form-control" id="episodeDuration" placeholder="Enter duration">
+                <input type="text" class="form-control" id="episodeDuration" name="durasi" placeholder="Enter duration">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

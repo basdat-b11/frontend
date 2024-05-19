@@ -62,13 +62,13 @@
                     <div class="card-body d-flex justify-content-between">
                         <div>
                             <h5 class="card-title">{{ podcast.judul_podcast }}</h5>
-                            <p class="card-text">Number of Episodes: {{ podcast.total_episode }}</p>
+                            <p class="card-text">Number of Episodes: {{ podcast.total_episodes }}</p>
                             <p class="card-text">Total Duration: {{ podcast.total_durasi }}</p>
                         </div>
                         <div class="d-grid gap-2">
-                            <a href="/kelolapodcast/list-episode/{{ podcast.id_konten }}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#episodesModal">View Episodes</a>
-                            <a href="/kelolapodcast/create-episode/{{ podcast.id_konten }}" class="btn btn-primary">Add Episode</a>
-                            <button class="btn btn-danger">Delete Podcast</button>
+                            <a href="/kelolapodcast/list-episode/{{ podcast.podcast_id }}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#episodesModal">View Episodes</a>
+                            <a href="/kelolapodcast/create-episode/{{ podcast.podcast_id }}" class="btn btn-primary">Add Episode</a>
+                            <a href="{% url 'kelolapodcast:delete_podcast' podcast.podcast_id %}" class="btn btn-danger">Delete Podcast</a>
                         </div>
                     </div>
                 </div>
