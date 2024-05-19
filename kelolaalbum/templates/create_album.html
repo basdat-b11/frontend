@@ -65,22 +65,28 @@
                         {% endfor %}
                     </div><br><br>
             
-                    {% if "Artist" in roles %}
+                    {% if "Songwriter" in roles and "Artist" in roles %}
+                    <label for="Artist">Artist: {{ user.2 }}</label><br>
+                    <label for="songwriter">Songwriter: {{ user.2 }}</label>
+                    <br><br>
+
+                    {% elif "Artist" in roles %}
+                    <label for="Artist">Artist: {{ user.2 }}</label><br>
                     <label for="songwriter">Songwriter:</label>
                     <select id="songwriter" name="songwriter" multiple required>
                         {% for songwriter in songwriters %}
                             <option value="{{ songwriter.email_akun }}">{{ songwriter }}</option>
                         {% endfor %}
                     </select><br><br>
+
                     {% elif "Songwriter" in roles %}
+                    <label for="songwriter">Songwriter: {{ user.2 }}</label><br>
                     <label for="artist">artist:</label>
                     <select id="artist" name="artist" required>
                         {% for artist in artists %}
                             <option value="{{ artist.email_akun }}">{{ artist }}</option>
                         {% endfor %}
                     </select><br><br>
-                    {% elif "Songwriter" in roles and "Artist" in roles %}
-
                     {% endif %}
                     <input type="submit" value="Create Song">
                 </form>

@@ -19,15 +19,27 @@ def list_album(cursor: CursorWrapper, request):
     #     email = request.session.get('email')
     # except:
     #     return HttpResponseRedirect(reverse("authentication:login_user"))
-    cursor.execute("Set search_path to marmut;")
-    query =(rf"""SELECT album.judul AS judul_album, label.nama AS label, album.jumlah_lagu AS jumlah_lagu, album.total_durasi AS total_durasi, album.id AS id_album
-                FROM album
-                JOIN song ON album.id = song.id_album
-                JOIN artist ON song.id_artist = artist.id
-                JOIN akun ON artist.email_akun = akun.email
-                JOIN label ON album.id_label = label.id
-                WHERE akun.email = '{email}'
-                GROUP BY album.judul, akun.nama, label.nama, album.jumlah_lagu, album.total_durasi, album.id;
+    if (request.session["role"] == "label"):
+        cursor.execute("Set search_path to marmut;")
+        query =(rf"""SELECT album.judul AS judul_album, label.nama AS label, album.jumlah_lagu AS jumlah_lagu, album.total_durasi AS total_durasi, album.id AS id_album
+                    FROM album
+                    JOIN label ON album.id_label = label.id
+                    JOIN song ON album.id = song.id_album
+                    JOIN artist ON song.id_artist = artist.id
+                    JOIN akun ON artist.email_akun = akun.email
+                    WHERE label.email = '{email}'
+                    GROUP BY album.judul, label.nama, album.jumlah_lagu, album.total_durasi, album.id;
+                                """)
+    else:
+        cursor.execute("Set search_path to marmut;")
+        query =(rf"""SELECT album.judul AS judul_album, label.nama AS label, album.jumlah_lagu AS jumlah_lagu, album.total_durasi AS total_durasi, album.id AS id_album
+                    FROM album
+                    JOIN song ON album.id = song.id_album
+                    JOIN artist ON song.id_artist = artist.id
+                    JOIN akun ON artist.email_akun = akun.email
+                    JOIN label ON album.id_label = label.id
+                    WHERE akun.email = '{email}'
+                    GROUP BY album.judul, akun.nama, label.nama, album.jumlah_lagu, album.total_durasi, album.id;
                                 """)
     cursor.execute(query)
     result = cursor.fetchall()
@@ -201,6 +213,8 @@ def list_song_album(request, album_id):
                 "total_download": row[3],
                 "id": row[4]
             })
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to public")
     email = request.session["email"]
     role = request.session["role"]
 
