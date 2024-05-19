@@ -66,6 +66,16 @@
             <div class="text-center mb-4">
                 <h2>Profil Pengguna</h2>
             </div>
+            {% if role == "label" %}
+            <div class="profile-info">
+                <label>Nama:</label>
+                <p>{{ user.1 }}</p>
+            </div>
+            <div class="profile-info">
+                <label>Email:</label>
+                <p>{{ user.2 }}</p>
+            </div>
+            {% else %}
             <div class="profile-info">
                 <label>Nama:</label>
                 <p>{{ user.2 }}</p>
@@ -74,10 +84,11 @@
                 <label>Email:</label>
                 <p>{{ user.0 }}</p>
             </div>
+            {% endif %}
             {% if role == "label" %}
                 <div class="profile-info">
                     <label>Kontak:</label>
-                    <p>{{ user.3 }}</p>
+                    <p>{{ user.4 }}</p>
                 </div>
             {% else %}
                 <div class="profile-info">
