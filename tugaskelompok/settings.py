@@ -91,17 +91,11 @@ WSGI_APPLICATION = 'tugaskelompok.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbj',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost', 
+        'NAME': 'postgres',
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com', 
         'PORT': '5432',
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'postgres',
-        # 'USER': os.getenv("DB_USER"),
-        # 'PASSWORD': os.getenv("DB_PASSWORD"),
-        # 'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com', 
-        # 'PORT': '5432',
     }
 }
 
