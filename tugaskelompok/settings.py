@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'kelolaplaylist',
     'playlist',
     'kelolaalbum',
+    'kelolasong',
 ]
 
 MIDDLEWARE = [

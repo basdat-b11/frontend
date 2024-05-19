@@ -10,6 +10,7 @@ urlpatterns = [
     path('', test_akun, name='test_akun'),
     path('kelolaalbum/', include('kelolaalbum.urls')),
     path('kelolaplaylist/', include('kelolaplaylist.urls')),
+    path('kelolasong/', include('kelolasong.urls')),
     path('songdetail/', include('songdetail.urls')),
     path('playlist/', include('playlist.urls')),
     # path('create-album', create_album, name='create_album'), 
