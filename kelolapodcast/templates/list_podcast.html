@@ -52,6 +52,8 @@
             </div>
         </div>
     </nav>
+    
+    {% if "Podcaster" in roles %}
     <div class="container mt-5">
         <h1 class="mb-4">List Podcasts</h1>
         <a href="/kelolapodcast/create-podcast" class="btn btn-primary mb-3">Add New Podcast</a>
@@ -73,8 +75,18 @@
                     </div>
                 </div>
             </div>
+            {% empty %}
+                <div class="d-flex justify-content-center">
+                    <p>Belum Memiliki Podcast...</p>
+                </div>
             {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="d-flex justify-content-center">
+        <p>Kamu tidak bisa mengakses page ini</p>
+    </div>
+    {% endif %}
+
 </body>
 </html>

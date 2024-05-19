@@ -28,8 +28,8 @@ def chart_list(request):
     return render(request, 'chart_list.html', context)
 
 def chart_detail(request, id, tipe):
-    # if "email" not in request.session:
-    #     return redirect('authentication:login')
+    if "email" not in request.session:
+        return redirect('authentication:login')
     
     # email = request.session["email"]
     # role = request.session["role"]
