@@ -21,5 +21,6 @@ urlpatterns = [
     path('riwayat-langganan/', riwayat_langganan, name='riwayat_langganan'),
     path('unduhan-lagu/', unduhan_lagu, name='unduhan_lagu'),
     path('cari', pencarian, name='pencarian'),
+    path('kelolaplaylist/', include('kelolaplaylist.urls')),
     # path('lagulist-album-label', lagulist_album_label, name='lagulist_album_label'),
 ]
