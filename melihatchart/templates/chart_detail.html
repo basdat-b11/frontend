@@ -65,7 +65,7 @@
               <tbody>
                 {% for song in data_table %}
                 <tr>
-                  <td><a href="detail_lagu.html">{{ song.judul }}</a></td>
+                  <td><a href="/main/songdetail/view/{{ song.id }}">{{ song.judul }}</a></td>
                   <td>{{ song.nama }}</td>
                   <td>{{ song.tanggal_rilis }}</td>
                   <td>{{ song.total_play }}</td>
