@@ -83,46 +83,18 @@
   <div class="container mt-5">
     <h1 class="text-center">Daftar Chart</h1>
     <div class="row">
+      {% for chart in charts %}
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h5 class="card-title">Daily Top 20</h5>
+            <h5 class="card-title">{{ chart.name }}</h5>
           </div>
           <div class="card-footer text-right">
-            <a href="/melihatchart/daily-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
+            <a href="{% url 'melihatchart:chart_detail' chart.id chart.name %}" class="btn btn-primary">Lihat Daftar Lagu</a>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title">Weekly Top 20</h5>
-          </div>
-          <div class="card-footer text-right">
-            <a href="/melihatchart/weekly-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title">Monthly Top 20</h5>
-          </div>
-          <div class="card-footer text-right">
-            <a href="/melihatchart/monthly-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title">Yearly Top 20</h5>
-          </div>
-          <div class="card-footer text-right">
-            <a href="/melihatchart/yearly-chart-detail" class="btn btn-primary">Lihat Daftar Lagu</a>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
     <div class="text-center">
       <a href="javascript:history.back()" class="btn btn-secondary">Kembali</a>
