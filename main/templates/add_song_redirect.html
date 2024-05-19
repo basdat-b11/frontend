@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      /* Custom CSS */
+      .profile-info {
+          margin-bottom: 20px;
+      }
+
+      .profile-info label {
+          font-weight: bold;
+      }
+
+      .playlist-item {
+          cursor: pointer;
+      }
+
+      .playlist-item:hover {
+          text-decoration: underline;
+      }
+
+      body {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 5px 10px;
+      }
+  </style>
+</head>
+
+<body>
+
+<div id="formContainer">
+  <h2>Berhasil menambahkan lagu dengan judul {{ song_name }} ke {{ playlist_name }}</h2>
+
+  <button onclick="window.location.href = '/main/playlist/{{id_playlist}}';">Ke Playlist</button>
+  <button onclick="window.location.href = '/main/songdetail/view/{{song_id}}';">Kembali</button>
+</div>
+
+</body>
+</html>
