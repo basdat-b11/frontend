@@ -17,13 +17,13 @@ def logout(request):
     context = {
         "is_logged_in": False
     }
-    return render(request, "main.html", context)
+    return render(request, "LoginRegister.html", context)
 
 def show_landingpage(request):
     context = {
         "is_logged_in": False
     }
-    return render(request, "main.html", context)
+    return render(request, "LoginRegister.html", context)
 
 @csrf_exempt
 def login(request):
@@ -56,7 +56,7 @@ def login(request):
                 request.session["role"] = "label"
             return dashboard(request)
             
-    return render(request, "Login.html", context)
+    return render(request, "login.html", context)
 
 def dashboard(request):
     if "email" not in request.session:
@@ -67,19 +67,22 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
-        cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        if (role == "pengguna") :
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else:
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
         user_data = cursor.fetchone()
 
         if not user_data:
             return redirect('authentication:login')
-        
+
         cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
         premium = cursor.fetchone()
         if premium:
             is_premium = True
         else:
             is_premium = False
-        
+
         cursor.execute("set search_path to public")
 
     roles = get_role_pengguna(email)
