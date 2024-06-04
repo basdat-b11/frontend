@@ -29,7 +29,13 @@ SECRET_KEY = 'django-insecure-6#f3^#n3cg@r@67d5w$pa&6ripavt_*-!9u(uoki&gjei^j9vl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    'tugaskelompok-production.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+]
+
+CSRF_TRUSTED_ORIGINS = ['https://tugaskelompok-production.up.railway.app/']
 
 
 # Application definition
@@ -58,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -92,10 +98,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'USER': 'postgres.zlanhhaiuvfbjlkpfndl',
+        'PASSWORD': 'basisdatab11gacor',
         'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com', 
         'PORT': '5432',
+        'OPTIONS': {
+            'options': '-c search_path=MARMUT',
+        }
     }
 }
 
